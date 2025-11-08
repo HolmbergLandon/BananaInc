@@ -36,7 +36,7 @@ public class Upgrade extends Purchaseable{
 
     public static void initUpgrades() {
         upgrades.add(new Upgrade(2, 0, "Cursor Upgrade I", 
-            1, null, new ArrayList<Upgrade>(), "Increases efficiency of cursors", 20));
+            1, null, new ArrayList<>(), "Increases efficiency of cursors", 20));
         for(Upgrade u : upgrades) {
             hiddenUpgrades.add(u);
         }
