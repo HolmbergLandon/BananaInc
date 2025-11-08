@@ -8,14 +8,14 @@ public class Sprite {
     
     static {
         // Load tier-based images
-        loadImage("bananaTier1", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/oneBanana.png");
-        loadImage("bananaTier2", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/twoBanana.png");
-        loadImage("bananaTier3", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/threeBanana.png");
-        loadImage("bananaTier4", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
-        loadImage("backgroundTier1", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier1Background.png");
-        loadImage("backgroundTier2", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier2Background.png");
-        loadImage("backgroundTier3", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier3Background.png");
-        loadImage("backgroundTier4", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier4Background.png");
+        loadImage("bananaTier1", "./BananaInc/sprites/oneBanana.png");
+        loadImage("bananaTier2", "./BananaInc/sprites/twoBanana.png");
+        loadImage("bananaTier3", "./BananaInc/sprites/threeBanana.png");
+        loadImage("bananaTier4", "./BananaInc/sprites/fourBanana.png");
+        loadImage("backgroundTier1", "./BananaInc/sprites/tier1Background.png");
+        loadImage("backgroundTier2", "./BananaInc/sprites/tier2Background.png");
+        loadImage("backgroundTier3", "./BananaInc/sprites/tier3Background.png");
+        loadImage("backgroundTier4", "./BananaInc/sprites/tier4Background.png");
     }
     
     /**
