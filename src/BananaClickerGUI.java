@@ -129,7 +129,6 @@ public class BananaClickerGUI extends JFrame {
         public void mouseClicked(java.awt.event.MouseEvent e) {
             player.clickBanana();
             updateDisplay();
-            animateClick();
         }
     });
     
