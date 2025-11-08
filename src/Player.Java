@@ -6,6 +6,7 @@ public class Player {
     public double bananasPerSecond = 0;
     public String username = ""; 
     public int timesRebirthed;
+    public int rebirthTier = checkRebirthTier();
     
     // Player constructor passing only username
     public Player(String username){
@@ -42,5 +43,20 @@ public class Player {
 
     public void clickBanana() {
         this.bananas += this.bananaPerClick;
+    }
+
+    /**
+     * This function checks number of rebirths and returns the tier
+     */
+    private void checkRebirthTier() {
+        if (this.timesRebirthed < 10) {
+            rebirthTier = 1;
+        } else if (this.timesRebirthed < 50) {
+            rebirthTier = 2;
+        } else if (this.rebirthTier < 100) {
+            rebirthTier = 3;
+        } else {
+            rebirthTier = 4;
+        }
     }
 }

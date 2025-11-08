@@ -8,9 +8,10 @@ public class Sprite {
     private static Map<String, Image> images = new HashMap<>();
     
     static {
-        loadImage("bananaRebirthTier1",
-                "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
-        
+        loadImage("bananaTier1", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
+        loadImage("bananaTier2", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/twoBanana.png");
+        loadImage("bananaTier3", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/threeBanana.png");
+        loadImage("bananaTier4", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
     }
 
     static {
