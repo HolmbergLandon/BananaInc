@@ -48,15 +48,15 @@ public class Player {
     /**
      * This function checks number of rebirths and returns the tier
      */
-    private void checkRebirthTier() {
+    private int checkRebirthTier() {
         if (this.timesRebirthed < 10) {
-            rebirthTier = 1;
+            return 1;
         } else if (this.timesRebirthed < 50) {
-            rebirthTier = 2;
+            return 2;
         } else if (this.rebirthTier < 100) {
-            rebirthTier = 3;
+            return 3;
         } else {
-            rebirthTier = 4;
+            return 4;
         }
     }
 }
