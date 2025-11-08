@@ -106,8 +106,17 @@ public class BananaClickerGUI extends JFrame {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bananaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                System.out.println("Hover");
             }
         });
+
+        bananaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                System.out.println("Clicked");
+            }
+        });
+
         
         centerPanel.add(bananaButton);
         add(centerPanel, BorderLayout.CENTER);
@@ -125,10 +134,8 @@ public class BananaClickerGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(shopPanel);
         scrollPane.setPreferredSize(new Dimension(300, 0));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        System.out.println(Building.buildingList);
         // Create shop items
         for (Building building : Building.buildingList) {
-            System.out.println(building);
             shopPanel.add(createShopItemPanel(building));
             shopPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         }
@@ -143,6 +150,7 @@ public class BananaClickerGUI extends JFrame {
             BorderFactory.createLineBorder(new Color(139, 69, 19), 1),
             BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
+
         itemPanel.setMaximumSize(new Dimension(280, 80));
         
         // Item icon
