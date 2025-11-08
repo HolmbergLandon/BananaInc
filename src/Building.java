@@ -2,12 +2,11 @@ import java.util.ArrayList;
 
 public class Building {
     public String name;
-    public int price;
+    public int basePrice;
     public double bananasPerSecond;
-    
-    
-    public final double priceMultiplier = 1.5;
+    public int count;
 
+    public static final double priceMultiplier = 1.5;
 
     public static final int NUM_BUILDINGS = 2;
     
@@ -23,8 +22,9 @@ public class Building {
      */    
     public Building(String name, int basePrice, double bananasPerSecond) {
         this.name = name;
-        this.price = basePrice;
+        this.basePrice = basePrice;
         this.bananasPerSecond = bananasPerSecond;
+        this.count = 0;
     }
 
     public void initBuildingList() {
@@ -48,7 +48,25 @@ public class Building {
      * @return Whether or not the building can be purchased.
      */
     public boolean purchaseable(int bananas) {
-        return bananas >= this.price;
+        return bananas >= this.basePrice;
+    }
+
+    public Object[] purchase(int bananas) {
+        if(!purchaseable(bananas)) {
+            return new Object[]{false, bananas};
+        }
+        int newBananas = bananas - this.basePrice;
+        this.calculateNewPrice();
+        return new Object[]{true, newBananas};
+    }
+
+    public int getIndexInBuildingList() {
+        return buildingList.indexOf(this);
+    }
+
+    public void calculateNewPrice() {
+        double individualMultiplier = Upgrade.getPriceMultiplierForBuildingIndex(this.getIndexInBuildingList());
+        this.basePrice = (int) (individualMultiplier * Math.pow(basePrice, Building.priceMultiplier));
     }
 
 }
