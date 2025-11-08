@@ -33,6 +33,7 @@ public abstract class Purchaseable {
             return new Object[]{false, bananas};
         }
         int newBananas = bananas - this.basePrice;
+        this.count++;
         this.calculateNewPrice();
         return new Object[]{true, newBananas};
     }
