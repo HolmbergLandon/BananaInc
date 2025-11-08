@@ -16,6 +16,13 @@ public class Sprite {
         loadImage("backgroundTier2", "./BananaInc/sprites/tier2Background.png");
         loadImage("backgroundTier3", "./BananaInc/sprites/tier3Background.png");
         loadImage("backgroundTier4", "./BananaInc/sprites/tier4Background.png");
+        loadImage("Cursor", "./BananaInc/sprites/cursor.png");
+        loadImage("Laborer", "./BananaInc/sprites/laborer.png");
+        loadImage("Farm", "./BananaInc/sprites/farm.png");
+        loadImage("Crawlerr", "./BananaInc/sprites/crawler.png");
+        loadImage("Plantation", "./BananaInc/sprites/plantation.png");
+        loadImage("GMO Factory", "./BananaInc/sprites/GMOFactory.png");
+        loadImage("Alternate Universe", "./BananaInc/sprites/alternateUniverse.png");
     }
     
     /**
