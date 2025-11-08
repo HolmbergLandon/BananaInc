@@ -31,8 +31,8 @@ public class Building extends Purchaseable {
      * @param index The index within buildingList of the building.
      * @return The number of bananas per second.
      */
-    public static double getBananasPerSecond(final int numBuildings, final int index) {
-        return buildingList.get(index).bananasPerSecond * Upgrade.getBananaMultiplierForBuildingIndex(index);
+    public double getBananasPerSecond() {
+        return this.bananasPerSecond * this.count * Upgrade.getBananaMultiplierForBuildingIndex(this.getIndexInBuildingList());
     }
 
 
