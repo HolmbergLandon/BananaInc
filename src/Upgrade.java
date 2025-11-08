@@ -35,6 +35,8 @@ public class Upgrade extends Purchaseable{
     }
 
     public static void initUpgrades() {
+        upgrades.add(new Upgrade(2, -1, "Click Upgrade", 
+            1, null, new ArrayList<>(), "Increases efficiency of clicking", 100));
         upgrades.add(new Upgrade(2, 0, "Cursor Upgrade", 
             1, null, new ArrayList<>(), "Increases efficiency of cursors", 20));
         upgrades.add(new Upgrade(2, 1, "Laborer Upgrade", 
@@ -76,6 +78,12 @@ public class Upgrade extends Purchaseable{
                     stayHidden = true;
                     break;
                 }
+            }
+            if(hiddenUpgrade.indexUpgraded == -1) {
+                shownUpgrades.add(hiddenUpgrade);
+                hiddenUpgrades.remove(hiddenUpgrade);
+                i--;
+                continue;
             }
             if(Building.buildingList.get(hiddenUpgrade.indexUpgraded).count == 0) {
                 stayHidden = true;
