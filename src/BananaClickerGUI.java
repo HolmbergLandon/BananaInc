@@ -182,7 +182,8 @@ public class BananaClickerGUI extends JFrame {
                     g.setColor(Color.LIGHT_GRAY);
                     g.fillRect(0, 0, getWidth(), getHeight());
                     g.setColor(Color.DARK_GRAY);
-                    g.drawString(building.name.substring(0, 1), getWidth() / 2 - 5, getHeight()/ 2 + 5);
+                    g.drawString(building.name.substring(0, 1), getWidth() / 2 - 5, getHeight() / 2 + 5);
+                    System.out.println("Image not found");
                 }
             }
         };

@@ -20,7 +20,7 @@ public class Sprite {
             loadImage("Cursor", "./BananaInc/sprites/cursor.png");
             loadImage("Laborer", "./BananaInc/sprites/laborer.png");
             loadImage("Farm", "./BananaInc/sprites/farm.png");
-            loadImage("Crawlerr", "./BananaInc/sprites/crawler.png");
+            loadImage("Crawler", "./BananaInc/sprites/crawler.png");
             loadImage("Plantation", "./BananaInc/sprites/plantation.png");
             loadImage("GMO Factory", "./BananaInc/sprites/GMOFactory.png");
             loadImage("Alternate Universe", "./BananaInc/sprites/alternateUniverse.png");
@@ -36,7 +36,7 @@ public class Sprite {
             loadImage("Cursor", "sprites/cursor.png");
             loadImage("Laborer", "sprites/laborer.png");
             loadImage("Farm", "sprites/farm.png");
-            loadImage("Crawlerr", "sprites/crawler.png");
+            loadImage("Crawler", "sprites/crawler.png");
             loadImage("Plantation", "sprites/plantation.png");
             loadImage("GMO Factory", "sprites/GMOFactory.png");
             loadImage("Alternate Universe", "sprites/alternateUniverse.png");
@@ -71,8 +71,7 @@ public class Sprite {
     }
     
     public static Image getUpgradeImage(String upgradeName) {
-        String key = upgradeName.toLowerCase();
-        return images.get(key);
+        return images.get(upgradeName);
     }
     
     /**
