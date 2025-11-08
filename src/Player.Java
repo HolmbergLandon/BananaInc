@@ -1,18 +1,15 @@
-import java.util.ArrayList;
-import java.util.Math;
 
 public class Player {
     // All player variables
     public double bananas; 
     public double playerBananaPerClick = 1;
-    public double bananaPerSecond = 0;
-    public final String USER_NAME = ""; 
+    public double bananasPerSecond = 0;
+    public String username = ""; 
     public int timesRebirthed; 
-    public ArrayList<Integer>() buildings = new ArrayList<>();
     
     // Player constructor passing only username
-    public player(String USER_NAME) {
-        this.USER_NAME = USER_NAME;
+    public Player(String username){
+        this.username = username;
     }
    
     /** Getting the number of bananas from buildings 
@@ -20,8 +17,8 @@ public class Player {
      */
     public int numBuildingsTotal() {
         int numberBananasFromBuildings = 0;
-        for (int i = 0; i < buildings.size(), i++) {
-           numberBananasFromBuildings += Banana.getBananasPerSecond(Building.NUM_BUILDINGS, i)    
+        for (int i = 0; i < Building.buildingList.size(); i++) {
+            numberBananasFromBuildings += Building.getBananasPerSecond(Building.NUM_BUILDINGS, i);    
      }
         return numberBananasFromBuildings;
     }
@@ -34,12 +31,12 @@ public class Player {
      */
     public void bananasBasedOnUpgrade(int numAcquiredUpgrades, int numNeedNextTier, int baseBananaPerUpgrade) {
         int currentTier = numAcquiredUpgrades / numNeedNextTier;
-        int eachUpgradeWorth = Math.pow(baseBananaPerUpgrade, currentTier);
-        bananaPerSecond += eachUpgradeWorth * numAcquiredUpgrades;
+        double eachUpgradeWorth = Math.pow(baseBananaPerUpgrade, currentTier);
+        bananasPerSecond += eachUpgradeWorth * numAcquiredUpgrades;
     }
 
     public void playerClickBananaAmount(int numCursorUpgrades, int numNeedNextTierCursor) {
-        int currentTier = numCursorUpgrades / numNeedNextTier;
+        int currentTier = numCursorUpgrades / numNeedNextTierCursor;
         playerBananaPerClick = currentTier * numCursorUpgrades;
     }
 }
