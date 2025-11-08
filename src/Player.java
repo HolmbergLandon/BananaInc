@@ -2,15 +2,17 @@
 public class Player {
     // All player variables
     public double bananas; 
-    public double bananaPerClick = 1;
-    public double bananasPerSecond = 0;
-    public String username = ""; 
+    public double bananaPerClick;
+    public double bananasPerSecond;
+    public String username; 
     public int timesRebirthed;
     public int rebirthTier = checkRebirthTier();
     
     // Player constructor passing only username
     public Player(String username){
         this.username = username;
+        this.bananasPerSecond = 0;
+        this.bananaPerClick = 1;
     }
    
     public double getBananasPerSecond() {
