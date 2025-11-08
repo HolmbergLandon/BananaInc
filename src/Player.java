@@ -13,15 +13,11 @@ public class Player {
         this.username = username;
     }
    
-    /** Getting the number of bananas from buildings 
-     * @return numberBananasFromBuildings
-     */
-    public double numBuildingsTotal() {
-        double numberBananasFromBuildings = 0;
-        for (int i = 0; i < Building.buildingList.size(); i++) {
-            numberBananasFromBuildings += Building.getBananasPerSecond(Building.NUM_BUILDINGS, i);    
+    public double getBananasPerSecond() {
+        double sum;
+        for (Building b : Building.buildingList) {
+            sum += b.getBananasPerSecond();
         }
-        return numberBananasFromBuildings;
     }
 
     /**
@@ -36,11 +32,6 @@ public class Player {
         this.bananasPerSecond += eachUpgradeWorth * numAcquiredUpgrades;
     }
 
-    public void calculateBananasPerSecond() {
-        double bps = this.numBuildingsTotal();
-
-        this.bananasPerSecond = bps;
-    }
 
     public void playerClickBananaAmount(int numCursorUpgrades, int numNeedNextTierCursor) {
         int currentTier = numCursorUpgrades / numNeedNextTierCursor;
