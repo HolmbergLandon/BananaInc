@@ -308,7 +308,6 @@ public class BananaClickerGUI extends JFrame {
                 player.bananas += player.bananasPerSecond / 100;
                 
                 // Check if any new upgrades should become available
-                checkForNewUpgrades();
                 
                 updateDisplay();
             }
@@ -316,35 +315,15 @@ public class BananaClickerGUI extends JFrame {
         gameTimer.start();
     }
 
-    /**
-     * Check if any upgrades should become visible based on game progress
-     */
-    private void checkForNewUpgrades() {
-        for (Upgrade upgrade : Upgrade.upgradeList) {
-            if (!upgrade.isVisible() && shouldUpgradeBeVisible(upgrade)) {
-                upgrade.setVisible(true);
-                updateUpgradeShop(); // Refresh to show new upgrade
-            }
+    private String formatNumber(int number) {
+        if(number < 1000) {
+            return "" + number;
+        } else if (number < 1000000) {
+            return formatNumber(number / 1000.0) + "K";
+        } else {
+            return formatNumber(number / 1000000.0) + "M";
         }
     }
-
-    /**
-     * Determine if an upgrade should become visible based on game state
-     */
-    private boolean shouldUpgradeBeVisible(Upgrade upgrade) {
-        // Example conditions - modify based on your upgrade requirements
-        switch (upgrade.name) {
-            case "Double Click":
-                return player.bananas >= 100;
-            case "Auto Clicker":
-                return player.bananas >= 500;
-            case "Banana Multiplier":
-                return player.bananaPerSecond >= 10;
-            // Add more conditions for other upgrades
-            default:
-                return player.bananas >= upgrade.price * 0.5; // Default: show when player has half the cost
-        }
-}
 
     private String formatNumber(double number) {
         if (number < 1000) {
@@ -441,7 +420,7 @@ private void updateUpgradeShop() {
     upgradeShopPanel.removeAll();
     
     // Add currently available upgrades
-    for (Upgrade upgrade : Upgrade.upgradeList) {
+    for (Upgrade upgrade : Upgrade.upgrades) {
         if (upgrade.isVisible() && !upgrade.isPurchased()) {
             upgradeShopPanel.add(createUpgradeItemPanel(upgrade));
             upgradeShopPanel.add(Box.createRigidArea(new Dimension(0, 5)));

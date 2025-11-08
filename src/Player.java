@@ -59,13 +59,14 @@ public class Player {
         }
     }
 
-    public void attemptPurchase(Purchaseable purchaseable) {
+    public boolean attemptPurchase(Purchaseable purchaseable) {
         Object[] status = purchaseable.purchase((int) this.bananas);
         if(!((Boolean) status[0])) {
-            return;
+            return false;
         }
         this.bananas = (double) ((Integer) status[1]);
         this.setBananasPerSecond();
+        return true;
     }
 
 }

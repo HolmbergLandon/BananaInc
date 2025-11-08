@@ -105,5 +105,13 @@ public class Upgrade extends Purchaseable{
         return modifier;
     }
 
+    public boolean isVisible() {
+        return Upgrade.shownUpgrades.contains(this);
+    }
+
+    public boolean isPurchased() {
+        return Upgrade.purchasedUpgrades.contains(this);
+    }
+
 
 }
