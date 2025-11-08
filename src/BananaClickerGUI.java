@@ -16,20 +16,12 @@ public class BananaClickerGUI extends JFrame {
     private JPanel shopPanel;
     
     // Upgrade items
-    private UpgradeItem[] upgrades = {
-        new UpgradeItem("Grandma", 10, 1, "An old lady who loves bananas"),
-        new UpgradeItem("Farm", 100, 5, "A banana plantation"),
-        new UpgradeItem("Factory", 500, 20, "Mass banana production"),
-        new UpgradeItem("Mine", 2000, 50, "Dig for potassium"),
-        new UpgradeItem("Shipment", 7000, 100, "Import exotic bananas"),
-        new UpgradeItem("Portal", 50000, 500, "Summon bananas from another dimension")
-    };
     
     public BananaClickerGUI(Player player) {
+        this.player = player;
         initializeGame();
         setupGUI();
         startGameLoop();
-        this.player = player;
     }
     
     private void initializeGame() {
@@ -111,6 +103,7 @@ public class BananaClickerGUI extends JFrame {
         
         // Add hover effect
         bananaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 bananaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
@@ -134,15 +127,16 @@ public class BananaClickerGUI extends JFrame {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         
         // Create shop items
-        for (UpgradeItem upgrade : upgrades) {
-            shopPanel.add(createShopItemPanel(upgrade));
+        for (Building building : Building.buildingList) {
+            System.out.println(building);
+            shopPanel.add(createShopItemPanel(building));
             shopPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         }
         
         add(scrollPane, BorderLayout.EAST);
     }
     
-    private JPanel createShopItemPanel(UpgradeItem upgrade) {
+    private JPanel createShopItemPanel(Building building) {
         JPanel itemPanel = new JPanel(new BorderLayout());
         itemPanel.setBackground(new Color(245, 222, 179));
         itemPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -156,7 +150,7 @@ public class BananaClickerGUI extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Image icon = Sprite.getUpgradeImage(upgrade.name);
+                Image icon = Sprite.getUpgradeImage(building.name);
                 if (icon != null) {
                     g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
                 } else {
@@ -164,7 +158,7 @@ public class BananaClickerGUI extends JFrame {
                     g.setColor(Color.LIGHT_GRAY);
                     g.fillRect(0, 0, getWidth(), getHeight());
                     g.setColor(Color.DARK_GRAY);
-                    g.drawString(upgrade.name.substring(0, 1), getWidth()/2-5, getHeight()/2+5);
+                    g.drawString(building.name.substring(0, 1), getWidth() / 2 - 5, getHeight()/ 2 + 5);
                 }
             }
         };
@@ -174,13 +168,13 @@ public class BananaClickerGUI extends JFrame {
         JPanel infoPanel = new JPanel(new GridLayout(3, 1));
         infoPanel.setBackground(new Color(245, 222, 179));
         
-        JLabel nameLabel = new JLabel(upgrade.name);
+        JLabel nameLabel = new JLabel(building.name);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         
-        JLabel costLabel = new JLabel("Cost: " + formatNumber(upgrade.cost) + " bananas");
+        JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
         costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
-        JLabel effectLabel = new JLabel("+" + upgrade.bps + " bananas/sec");
+        JLabel effectLabel = new JLabel("+" + building.bananasPerSecond + " bananas/sec");
         effectLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
         infoPanel.add(nameLabel);
@@ -228,9 +222,9 @@ public class BananaClickerGUI extends JFrame {
                             String upgradeName = nameLabel.getText();
                             
                             // Find the upgrade and update cost
-                            for (UpgradeItem upgrade : upgrades) {
-                                if (upgrade.name.equals(upgradeName)) {
-                                    costLabel.setText("Cost: " + formatNumber(upgrade.cost) + " bananas");
+                            for (Building building : Building.buildingList) {
+                                if (building.name.equals(upgradeName)) {
+                                    costLabel.setText("Cost: " + formatNumber(building.price) + " bananas");
                                     break;
                                 }
                             }
@@ -287,23 +281,6 @@ public class BananaClickerGUI extends JFrame {
             return String.format("%.1fK", number / 1000.0);
         } else {
             return String.format("%.1fM", number / 1000000.0);
-        }
-    }
-    
-    // Upgrade item class
-    private class UpgradeItem {
-        String name;
-        int cost;
-        int bps;
-        String description;
-        int owned;
-        
-        UpgradeItem(String name, int cost, int bps, String description) {
-            this.name = name;
-            this.cost = cost;
-            this.bps = bps;
-            this.description = description;
-            this.owned = 0;
         }
     }
 }
