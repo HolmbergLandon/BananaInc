@@ -19,6 +19,7 @@ public class BananaClickerGUI extends JFrame {
     public BananaClickerGUI(Player player) {
         this.player = player;
         initializeGame();
+        debugImageLoading();
         setupGUI();
         startGameLoop();
     }
@@ -71,8 +72,24 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void createBananaButton() {
-       JPanel centerPanel = new JPanel(new GridBagLayout());
-    centerPanel.setBackground(new Color(245, 222, 179));
+    // Create a panel that shows the tier background ONLY in the center
+    JPanel centerPanel = new JPanel(new GridBagLayout()) {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            // Get tier-based background image for just the center area
+            Image backgroundImage = Sprite.getBackgroundImage(player.timesRebirthed);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                System.out.println("Drawing background image for tier: " + player.timesRebirthed); // Debug
+            } else {
+                // Fallback to solid color
+                g.setColor(new Color(245, 222, 179));
+                g.fillRect(0, 0, getWidth(), getHeight());
+                System.out.println("Background image is NULL for tier: " + player.timesRebirthed); // Debug
+            }
+        }
+    };
     
     bananaButton = new JButton() {
         @Override
@@ -80,51 +97,45 @@ public class BananaClickerGUI extends JFrame {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             
-            // CHANGE THIS LINE: Use tier-based banana image
+            // Use tier-based banana image
             Image bananaImage = Sprite.getBananaImage(player.timesRebirthed);
             if (bananaImage != null) {
                 g2d.drawImage(bananaImage, 0, 0, getWidth(), getHeight(), this);
+                System.out.println("Drawing banana image for tier: " + player.timesRebirthed); // Debug
             } else {
                 // Fallback drawing
                 g2d.setColor(Color.YELLOW);
                 g2d.fillOval(10, 10, getWidth() - 20, getHeight() - 20);
                 g2d.setColor(new Color(139, 69, 19));
                 g2d.fillArc(getWidth()/2 - 20, 15, 40, 30, 0, 180);
+                System.out.println("Banana image is NULL for tier: " + player.timesRebirthed); // Debug
             }
         }
     };
-
-        
-        bananaButton.setPreferredSize(new Dimension(300, 300));
-        bananaButton.setBorder(BorderFactory.createEmptyBorder());
-        bananaButton.setContentAreaFilled(false);
-        bananaButton.setFocusPainted(false);
     
+    bananaButton.setPreferredSize(new Dimension(300, 300));
+    bananaButton.setBorder(BorderFactory.createEmptyBorder());
+    bananaButton.setContentAreaFilled(false);
+    bananaButton.setFocusPainted(false);
+    
+    // Add hover effect
+    bananaButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+            bananaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
         
-        // Add hover effect
-        bananaButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bananaButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                System.out.println("Hover");
-            }
-        });
-
-        bananaButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                System.out.println("Clicked");
-                player.clickBanana();
-                updateDisplay();
-                
-                // Optional check if we should update tier graphics
-            }
-        });
-
-        
-        centerPanel.add(bananaButton);
-        add(centerPanel, BorderLayout.CENTER);
-    }
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+            player.clickBanana();
+            updateDisplay();
+            animateClick();
+        }
+    });
+    
+    centerPanel.add(bananaButton);
+    add(centerPanel, BorderLayout.CENTER);
+}
     
     private void createShopPanel() {
         shopPanel = new JPanel();
@@ -366,4 +377,17 @@ public class BananaClickerGUI extends JFrame {
         }
         bananaButton.repaint();
     }
+    
+    private void debugImageLoading() {
+        System.out.println("=== DEBUG: Image Loading ===");
+        System.out.println("Player rebirth tier: " + player.timesRebirthed);
+
+        Image backgroundImage = Sprite.getBackgroundImage(player.timesRebirthed);
+        Image bananaImage = Sprite.getBananaImage(player.timesRebirthed);
+
+        System.out.println("Background image: " + (backgroundImage != null ? "LOADED" : "NULL"));
+        System.out.println("Banana image: " + (bananaImage != null ? "LOADED" : "NULL"));
+        System.out.println("============================");
+    }
+
 }
