@@ -31,6 +31,11 @@ public class Upgrade {
         this.requiredUpgrades = requiredUpgrades;
     }
 
+    /**
+     * Move an upgrade from the shown upgrades to the purchased. 
+     * Then go through hidden upgrades to see if any more are purchaseable.
+     * @param upgrade
+     */
     public void purchaseUpgrade(Upgrade upgrade) {
         shownUpgrades.remove(upgrade);
         purchasedUpgrades.add(upgrade);
@@ -45,12 +50,27 @@ public class Upgrade {
                 }
             }
             if(!stayHidden) {
-                
+                shownUpgrades.add(hiddenUpgrade);
+                hiddenUpgrades.remove(hiddenUpgrade);
+                i--;
             }
         }
-
     }
 
-
+    /**
+     * Given a building index, go through upgrades and see the modifier.
+     * @param index The building index.
+     * @return The banana multiplier.
+     */
+    public static double getBananaMultiplierForBuildingIndex(int index) {
+        double modifier = 1;
+        for(int i = 0; i < purchasedUpgrades.size(); i++) {
+            Upgrade upgrade = purchasedUpgrades.get(i);
+            if(upgrade.indexUpgraded == index) {
+                modifier *= upgrade.bananasPerSecondMultiplier;
+            }
+        }
+        return modifier;
+    }
 
 }

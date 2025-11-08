@@ -38,8 +38,8 @@ public class Building {
      * @param index The index within buildingList of the building.
      * @return The number of bananas per second.
      */
-    public double getBananasPerSecond(final int numBuildings, final int index) {
-        return buildingList.get(index).bananasPerSecond;
+    public static double getBananasPerSecond(final int numBuildings, final int index) {
+        return buildingList.get(index).bananasPerSecond * Upgrade.getBananaMultiplierForBuildingIndex(index);
     }
 
 }
