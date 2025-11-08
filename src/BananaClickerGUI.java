@@ -24,16 +24,16 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void initializeGame() {
-        setTitle("Banana Clicker");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        setBackgroundBasedOnTier();
-        
-        // Apply custom look and feel
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
+    setTitle("Banana Clicker");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
+    getContentPane().setBackground(new Color(245, 222, 179)); // Banana cream background
+    
+    // Apply custom look and feel
+    try {
+        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+    } catch (Exception e) {
+        e.printStackTrace();
         }
     }
     
@@ -309,8 +309,17 @@ public class BananaClickerGUI extends JFrame {
         }
     }
 
-<<<<<<< HEAD
-        /**
+    private String formatNumber(double number) {
+        if (number < 1000) {
+            return String.format("%.1f", number);
+        } else if (number < 1000000) {
+            return formatNumber(number / 1000.0) + "K";
+        } else {
+            return formatNumber(number / 1000000.0) + "M";
+        }
+    }
+    
+    /**
      * Set background based on player's rebirth tier
      */
     private void setBackgroundBasedOnTier() {
@@ -345,16 +354,16 @@ public class BananaClickerGUI extends JFrame {
         // Update title to show current tier
         setTitle("Banana Clicker - Tier " + Math.max(1, Math.min(player.timesRebirthed + 1, 4)));
     }
-
-=======
-    private String formatNumber(double number) {
-        if(number < 1000) {
-            return String.format("%.1f", number);
-        } else if (number < 1000000) {
-            return formatNumber(number / 1000.0) + "K";
-        } else {
-            return formatNumber(number / 1000000.0) + "M";
+    
+    /**
+     * Refresh the center background and banana when tier changes
+     */
+    public void refreshCenterBackground() {
+        // This will force the center panel and banana button to repaint with new tier images
+        Component center = getContentPane().getComponent(1); // Center component
+        if (center != null) {
+            center.repaint();
         }
+        bananaButton.repaint();
     }
->>>>>>> 2eb70e3f8068f01bdd8d2dfafcaac0b79b01d3b6
 }
