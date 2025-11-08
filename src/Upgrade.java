@@ -35,8 +35,20 @@ public class Upgrade extends Purchaseable{
     }
 
     public static void initUpgrades() {
-        upgrades.add(new Upgrade(2, 0, "Cursor Upgrade I", 
+        upgrades.add(new Upgrade(2, 0, "Cursor Upgrade", 
             1, null, new ArrayList<>(), "Increases efficiency of cursors", 20));
+        upgrades.add(new Upgrade(2, 1, "Laborer Upgrade", 
+            1, null, new ArrayList<>(), "Increases efficiency of laborers", 200));
+        upgrades.add(new Upgrade(2, 2, "Farm Upgrade", 
+            1, null, new ArrayList<>(), "Increases efficiency of laborers", 2000));
+        upgrades.add(new Upgrade(2, 3, "Combine Upgrade", 
+            1, null, new ArrayList<>(), "Increases efficiency of laborers", 20000));
+        upgrades.add(new Upgrade(2, 4, "Plantation Upgrade", 
+            1, null, new ArrayList<>(), "Increases efficiency of laborers", 200000));
+        upgrades.add(new Upgrade(2, 5, "Alternate Universe Upgrade", 
+            1, null, new ArrayList<>(), "Increases efficiency of laborers", 2000000));
+        
+
         for(Upgrade u : upgrades) {
             hiddenUpgrades.add(u);
         }
