@@ -2,7 +2,7 @@
 public class Player {
     // All player variables
     public double bananas; 
-    public double playerBananaPerClick = 1;
+    public double bananaPerClick = 1;
     public double bananasPerSecond = 0;
     public String username = ""; 
     public int timesRebirthed;
@@ -37,6 +37,10 @@ public class Player {
 
     public void playerClickBananaAmount(int numCursorUpgrades, int numNeedNextTierCursor) {
         int currentTier = numCursorUpgrades / numNeedNextTierCursor;
-        playerBananaPerClick = currentTier * numCursorUpgrades;
+        bananaPerClick = currentTier * numCursorUpgrades;
+    }
+
+    public void clickBanana() {
+        this.bananas += this.bananaPerClick;
     }
 }
