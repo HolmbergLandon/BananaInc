@@ -8,9 +8,15 @@ public class Sprite {
     private static Map<String, Image> images = new HashMap<>();
     
     static {
+        loadImage("bananaRebirthTier1",
+                "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
+        
+    }
+
+    static {
         // Initialize your images here
         // For now, we'll use null - replace these with actual image loading
-        images.put("banana", null);
+        images.put("bananaRebirthTier1", null);
         images.put("grandma", null);
         images.put("farm", null);
         images.put("factory", null);

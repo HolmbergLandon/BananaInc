@@ -5,7 +5,7 @@ public class Player {
     public double playerBananaPerClick = 1;
     public double bananasPerSecond = 0;
     public String username = ""; 
-    public int timesRebirthed; 
+    public int timesRebirthed;
     
     // Player constructor passing only username
     public Player(String username){
