@@ -14,10 +14,11 @@ public class Player {
     }
    
     public double getBananasPerSecond() {
-        double sum;
+        double sum = 0;
         for (Building b : Building.buildingList) {
             sum += b.getBananasPerSecond();
         }
+        return sum;
     }
 
     /**
@@ -63,6 +64,6 @@ public class Player {
             return;
         }
         this.bananas = (double) ((Integer) status[1]);
-        this.calculateBananasPerSecond();
+        this.getBananasPerSecond();
     }
 }
