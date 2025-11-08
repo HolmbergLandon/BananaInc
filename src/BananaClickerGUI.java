@@ -114,6 +114,7 @@ public class BananaClickerGUI extends JFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 System.out.println("Clicked");
+                player.clickBanana();
             }
         });
 
