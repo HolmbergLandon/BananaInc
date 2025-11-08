@@ -23,6 +23,9 @@ public class Building extends Purchaseable {
     public static void initBuildingList() {
         buildingList.add(new Building("Cursor", 10, 0.1));
         buildingList.add(new Building("Laborer", 100, 2));
+        buildingList.add(new Building("Farm", 1000, 50));
+        buildingList.add(new Building("Combine", 10000, 250));
+        buildingList.add(new Building("Upgrade 5", 100000, 1200));
     }
 
     /**

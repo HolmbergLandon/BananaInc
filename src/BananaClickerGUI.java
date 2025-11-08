@@ -260,8 +260,8 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void updateDisplay() {
-        bananaCountLabel.setText("Bananas: " + String.format("%d",(int) player.bananas));
-        bpsLabel.setText(String.format("%.1f", player.bananasPerSecond) + " bananas/second");
+        bananaCountLabel.setText("Bananas: " + formatNumber((int) player.bananas));
+        bpsLabel.setText(formatNumber(player.bananasPerSecond) + " bananas/second");
         updateShopItems();
     }
     
@@ -309,6 +309,7 @@ public class BananaClickerGUI extends JFrame {
         }
     }
 
+<<<<<<< HEAD
         /**
      * Set background based on player's rebirth tier
      */
@@ -345,4 +346,15 @@ public class BananaClickerGUI extends JFrame {
         setTitle("Banana Clicker - Tier " + Math.max(1, Math.min(player.timesRebirthed + 1, 4)));
     }
 
+=======
+    private String formatNumber(double number) {
+        if(number < 1000) {
+            return String.format("%.1f", number);
+        } else if (number < 1000000) {
+            return formatNumber(number / 1000.0) + "K";
+        } else {
+            return formatNumber(number / 1000000.0) + "M";
+        }
+    }
+>>>>>>> 2eb70e3f8068f01bdd8d2dfafcaac0b79b01d3b6
 }
