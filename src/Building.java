@@ -28,7 +28,6 @@ public class Building {
     }
 
     public void initBuildingList() {
-        
         buildingList.add(new Building("Cursor", 10, 0.1));
         buildingList.add(new Building("Laborer", 100, 2));
     }
