@@ -33,6 +33,7 @@ public class Building extends Purchaseable {
      */
     public double getBananasPerSecond() {
         double val = this.bananasPerSecond * this.count * Upgrade.getBananaMultiplierForBuildingIndex(this.getIndexInBuildingList());
+        val *= Math.pow(2, this.count / 50);
         // System.out.println(val);
         return val;
     }
@@ -45,7 +46,7 @@ public class Building extends Purchaseable {
     @Override
     public void calculateNewPrice() {
         double individualMultiplier = Upgrade.getPriceMultiplierForBuildingIndex(this.getIndexInBuildingList());
-        this.basePrice = (int) (individualMultiplier * Math.pow(basePrice, Purchaseable.PURCHASE_PRICE_MULTIPLIER));
+        this.price = (int) (individualMultiplier * basePrice * Math.pow(Purchaseable.PURCHASE_PRICE_MULTIPLIER, count));
     }
 
 }

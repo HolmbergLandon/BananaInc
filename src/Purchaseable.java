@@ -18,6 +18,7 @@ public abstract class Purchaseable {
      * @return Whether or not the building can be purchased.
      */
     public boolean isPurchaseable(int bananas) {
+        System.out.println("Number of bananas: " + bananas + ". Price: " + price);
         return bananas >= this.price;
     }
 
@@ -32,7 +33,7 @@ public abstract class Purchaseable {
         if(!isPurchaseable(bananas)) {
             return new Object[]{false, bananas};
         }
-        int newBananas = bananas - this.basePrice;
+        int newBananas = bananas - this.price;
         this.count++;
         this.calculateNewPrice();
         return new Object[]{true, newBananas};
@@ -42,6 +43,7 @@ public abstract class Purchaseable {
         this.price *= PURCHASE_PRICE_MULTIPLIER;
     }
 
+    @Override
     public String toString() {
         return this.name;
     }

@@ -258,6 +258,7 @@ public class BananaClickerGUI extends JFrame {
     private void updateDisplay() {
         bananaCountLabel.setText("Bananas: " + String.format("%d",(int) player.bananas));
         bpsLabel.setText(String.format("%.1f", player.bananasPerSecond) + " bananas/second");
+        updateShopItems();
     }
     
     private void animateClick() {
