@@ -25,7 +25,9 @@ public class Building extends Purchaseable {
         buildingList.add(new Building("Laborer", 100, 2));
         buildingList.add(new Building("Farm", 1000, 50));
         buildingList.add(new Building("Combine", 10000, 250));
-        buildingList.add(new Building("Upgrade 5", 100000, 1200));
+        buildingList.add(new Building("GMO Factory", 100000, 1200));
+        buildingList.add(new Building("Plantation", 100000, 1200));
+        buildingList.add(new Building("Alternate Universe", 100000, 1200));
     }
 
     /**

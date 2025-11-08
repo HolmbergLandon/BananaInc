@@ -59,12 +59,13 @@ public class Player {
         }
     }
 
-    public void attemptPurchase(Building building) {
-        Object[] status = building.purchase((int) this.bananas);
+    public void attemptPurchase(Purchaseable purchaseable) {
+        Object[] status = purchaseable.purchase((int) this.bananas);
         if(!((Boolean) status[0])) {
             return;
         }
         this.bananas = (double) ((Integer) status[1]);
         this.setBananasPerSecond();
     }
+
 }
