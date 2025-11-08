@@ -1,8 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
+import javax.swing.*;
 
 
 public class BananaClickerGUI extends JFrame {
@@ -197,6 +196,14 @@ public class BananaClickerGUI extends JFrame {
         buyButton.setFocusPainted(false);
         buyButton.setPreferredSize(new Dimension(60, 30));
         
+        buyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button pressed: " + building.name);
+                player.attemptPurchase(building);
+            }
+        });
+
         itemPanel.add(iconLabel, BorderLayout.WEST);
         itemPanel.add(infoPanel, BorderLayout.CENTER);
         itemPanel.add(buyButton, BorderLayout.EAST);
@@ -273,7 +280,7 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void startGameLoop() {
-        Timer gameTimer = new Timer(1000, new ActionListener() {
+        Timer gameTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.bananas += player.bananasPerSecond;

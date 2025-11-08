@@ -59,4 +59,14 @@ public class Player {
             return 4;
         }
     }
+
+    public void attemptPurchase(Building building) {
+        Object[] status = building.purchase((int) this.bananas);
+        if((Boolean) status[0] == false) {
+            return;
+        }
+        
+        this.bananas = (double) ((Integer) status[1]);
+        System.out.println(building.count);
+    }
 }
