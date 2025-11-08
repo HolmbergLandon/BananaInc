@@ -1,5 +1,5 @@
 
-    import java.awt.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
@@ -33,7 +33,11 @@ public class Sprite {
         return images.get("background");
     }
     
-    // Method to load images (call this at startup)
+    /**
+     * Method to load images
+     * @param key
+     * @param imagePath
+     */
     public static void loadImage(String key, String imagePath) {
         try {
             ImageIcon icon = new ImageIcon(imagePath);
