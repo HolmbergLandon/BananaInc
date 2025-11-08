@@ -77,6 +77,9 @@ public class Upgrade extends Purchaseable{
                     break;
                 }
             }
+            if(Building.buildingList.get(hiddenUpgrade.indexUpgraded).count == 0) {
+                stayHidden = true;
+            }
             if(!stayHidden) {
                 shownUpgrades.add(hiddenUpgrade);
                 hiddenUpgrades.remove(hiddenUpgrade);
