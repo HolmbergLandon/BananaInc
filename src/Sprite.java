@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +17,22 @@ public class Sprite {
         loadImage("backgroundTier4", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier4Background.png");
     }
     
+    /**
+     * Get banana image based on player's rebirth tier
+     */
+    public static Image getBananaImage(int rebirthTier) {
+        // Ensure tier is within valid range (1-4)
+        return images.get("bananaTier" + rebirthTier);
+    }
+    
+    /**
+     * Get background image based on player's rebirth tier
+     */
+    public static Image getBackgroundImage(int rebirthTier) {
+        // Ensure tier is within valid range (1-4)
+        return images.get("backgroundTier" + rebirthTier);
+    }
+
     public static Image getBananaImage() {
         return images.get("banana");
     }
