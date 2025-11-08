@@ -66,6 +66,7 @@ public class Player {
         }
         this.bananas = (double) ((Integer) status[1]);
         this.setBananasPerSecond();
+        Upgrade.unhideUpgrades();
         return true;
     }
 

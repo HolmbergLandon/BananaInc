@@ -420,7 +420,7 @@ private void updateUpgradeShop() {
     upgradeShopPanel.removeAll();
     
     // Add currently available upgrades
-    for (Upgrade upgrade : Upgrade.upgrades) {
+    for (Upgrade upgrade : Upgrade.shownUpgrades) {
         if (upgrade.isVisible() && !upgrade.isPurchased()) {
             upgradeShopPanel.add(createUpgradeItemPanel(upgrade));
             upgradeShopPanel.add(Box.createRigidArea(new Dimension(0, 5)));
