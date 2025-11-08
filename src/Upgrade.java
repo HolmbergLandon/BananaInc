@@ -1,19 +1,17 @@
 import java.util.ArrayList;
 
-public class Upgrade {
+public class Upgrade extends Purchaseable{
     public static ArrayList<Upgrade> upgrades = new ArrayList<>();
     public static ArrayList<Upgrade> shownUpgrades = new ArrayList<>();
     public static ArrayList<Upgrade> purchasedUpgrades = new ArrayList<>();
     public static ArrayList<Upgrade> hiddenUpgrades = new ArrayList<>();
 
-    public String name;
     public String description;
     public int indexUpgraded;
     public double bananasPerSecondMultiplier;
     public double priceMultiplier;
     public Sprite sprite;
     public ArrayList<Upgrade> requiredUpgrades;
-    public int price;
 
     /**
      * Full arg constructor.
@@ -26,15 +24,14 @@ public class Upgrade {
      * @param description The description of the upgrade.
      */
     public Upgrade(double bananasPerSecondMultiplier, int indexUpgraded, String name, double priceMultiplier, Sprite sprite, 
-                    ArrayList<Upgrade> requiredUpgrades, String description, int price) {
+                ArrayList<Upgrade> requiredUpgrades, String description, int basePrice) {
+        super(name, basePrice);
         this.bananasPerSecondMultiplier = bananasPerSecondMultiplier;
         this.indexUpgraded = indexUpgraded;
-        this.name = name;
         this.priceMultiplier = priceMultiplier;
         this.sprite = sprite;
         this.requiredUpgrades = requiredUpgrades;
         this.description = description;
-        this.price = price;
     }
 
     /**
@@ -95,13 +92,5 @@ public class Upgrade {
         return modifier;
     }
 
-    /**
-     * Given a number of bananas, return whether or not the upgrade is purchaseable.
-     * @param bananas The number of bananas that the user has.
-     * @return Whether or not the upgrade can be purchased.
-     */
-    public boolean canPurchase(int bananas) {
-        return bananas >= this.price;
-    }
 
 }

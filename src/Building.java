@@ -1,12 +1,7 @@
 import java.util.ArrayList;
 
-public class Building {
-    public String name;
-    public int basePrice;
+public class Building extends Purchaseable {
     public double bananasPerSecond;
-    public int count;
-
-    public static final double priceMultiplier = 1.5;
 
     public static final int NUM_BUILDINGS = 2;
     
@@ -21,10 +16,8 @@ public class Building {
      * @param bananasPerSecond Bananas per second.
      */    
     public Building(String name, int basePrice, double bananasPerSecond) {
-        this.name = name;
-        this.basePrice = basePrice;
+        super(name, basePrice);
         this.bananasPerSecond = bananasPerSecond;
-        this.count = 0;
     }
 
     public void initBuildingList() {
@@ -42,31 +35,15 @@ public class Building {
         return buildingList.get(index).bananasPerSecond * Upgrade.getBananaMultiplierForBuildingIndex(index);
     }
 
-    /**
-     * Given a number of bananas, return whether or not the building is purchaseable.
-     * @param bananas The number of bananas that the user has.
-     * @return Whether or not the building can be purchased.
-     */
-    public boolean purchaseable(int bananas) {
-        return bananas >= this.basePrice;
-    }
-
-    public Object[] purchase(int bananas) {
-        if(!purchaseable(bananas)) {
-            return new Object[]{false, bananas};
-        }
-        int newBananas = bananas - this.basePrice;
-        this.calculateNewPrice();
-        return new Object[]{true, newBananas};
-    }
 
     public int getIndexInBuildingList() {
         return buildingList.indexOf(this);
     }
 
+    @Override
     public void calculateNewPrice() {
         double individualMultiplier = Upgrade.getPriceMultiplierForBuildingIndex(this.getIndexInBuildingList());
-        this.basePrice = (int) (individualMultiplier * Math.pow(basePrice, Building.priceMultiplier));
+        this.basePrice = (int) (individualMultiplier * Math.pow(basePrice, Purchaseable.PURCHASE_PRICE_MULTIPLIER));
     }
 
 }
