@@ -32,7 +32,9 @@ public class Building extends Purchaseable {
      * @return The number of bananas per second.
      */
     public double getBananasPerSecond() {
-        return this.bananasPerSecond * this.count * Upgrade.getBananaMultiplierForBuildingIndex(this.getIndexInBuildingList());
+        double val = this.bananasPerSecond * this.count * Upgrade.getBananaMultiplierForBuildingIndex(this.getIndexInBuildingList());
+        // System.out.println(val);
+        return val;
     }
 
 

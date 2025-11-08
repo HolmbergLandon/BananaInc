@@ -15,12 +15,11 @@ public class Player {
         this.bananaPerClick = 1;
     }
    
-    public double getBananasPerSecond() {
-        double sum = 0;
+    public void setBananasPerSecond() {
+        this.bananasPerSecond = 0;
         for (Building b : Building.buildingList) {
-            sum += b.getBananasPerSecond();
+            this.bananasPerSecond += b.getBananasPerSecond();
         }
-        return sum;
     }
 
     /**
@@ -66,6 +65,6 @@ public class Player {
             return;
         }
         this.bananas = (double) ((Integer) status[1]);
-        this.getBananasPerSecond();
+        this.setBananasPerSecond();
     }
 }
