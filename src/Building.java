@@ -42,4 +42,13 @@ public class Building {
         return buildingList.get(index).bananasPerSecond * Upgrade.getBananaMultiplierForBuildingIndex(index);
     }
 
+    /**
+     * Given a number of bananas, return whether or not the building is purchaseable.
+     * @param bananas The number of bananas that the user has.
+     * @return Whether or not the building can be purchased.
+     */
+    public boolean purchaseable(int bananas) {
+        return bananas >= this.price;
+    }
+
 }
