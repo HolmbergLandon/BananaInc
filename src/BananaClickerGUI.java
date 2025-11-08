@@ -201,6 +201,9 @@ public class BananaClickerGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Button pressed: " + building.name);
                 player.attemptPurchase(building);
+                buyButton.remove(costLabel);
+                JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
+                costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
             }
         });
 
@@ -252,8 +255,8 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void updateDisplay() {
-        bananaCountLabel.setText("Bananas: " + formatNumber((int)player.bananas));
-        bpsLabel.setText(formatNumber((int)player.bananasPerSecond) + " bananas/second");
+        bananaCountLabel.setText("Bananas: " + String.format("%d",(int) player.bananas));
+        bpsLabel.setText(String.format("%.1f", player.bananasPerSecond) + " bananas/second");
     }
     
     private void animateClick() {
