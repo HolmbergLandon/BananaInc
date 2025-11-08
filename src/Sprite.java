@@ -7,7 +7,8 @@ public class Sprite {
     private static Map<String, Image> images = new HashMap<>();
     
     static {
-        loadImage("bananaTier1", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
+        // Load tier-based images
+        loadImage("bananaTier1", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/oneBanana.png");
         loadImage("bananaTier2", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/twoBanana.png");
         loadImage("bananaTier3", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/threeBanana.png");
         loadImage("bananaTier4", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/fourBanana.png");
@@ -22,7 +23,8 @@ public class Sprite {
      */
     public static Image getBananaImage(int rebirthTier) {
         // Ensure tier is within valid range (1-4)
-        return images.get("bananaTier" + rebirthTier);
+        int actualTier = Math.max(1, Math.min(rebirthTier, 4));
+        return images.get("bananaTier" + actualTier);
     }
     
     /**
@@ -30,11 +32,15 @@ public class Sprite {
      */
     public static Image getBackgroundImage(int rebirthTier) {
         // Ensure tier is within valid range (1-4)
-        return images.get("backgroundTier" + rebirthTier);
+        int actualTier = Math.max(1, Math.min(rebirthTier, 4));
+        return images.get("backgroundTier" + actualTier);
     }
 
+    /**
+     * Default banana image (tier 1)
+     */
     public static Image getBananaImage() {
-        return images.get("banana");
+        return getBananaImage(1);
     }
     
     public static Image getUpgradeImage(String upgradeName) {
@@ -42,14 +48,8 @@ public class Sprite {
         return images.get(key);
     }
     
-    public static Image getBackgroundImage() {
-        return images.get("background");
-    }
-    
     /**
      * Method to load images
-     * @param key
-     * @param imagePath
      */
     public static void loadImage(String key, String imagePath) {
         try {
