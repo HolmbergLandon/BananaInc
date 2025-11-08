@@ -20,7 +20,7 @@ public class Player {
         double numberBananasFromBuildings = 0;
         for (int i = 0; i < Building.buildingList.size(); i++) {
             numberBananasFromBuildings += Building.getBananasPerSecond(Building.NUM_BUILDINGS, i);    
-     }
+        }
         return numberBananasFromBuildings;
     }
 

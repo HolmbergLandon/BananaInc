@@ -41,4 +41,8 @@ public abstract class Purchaseable {
     public void calculateNewPrice() {
         this.price *= PURCHASE_PRICE_MULTIPLIER;
     }
+
+    public String toString() {
+        return this.name;
+    }
 }
