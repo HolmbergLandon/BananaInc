@@ -256,8 +256,8 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void updateDisplay() {
-        bananaCountLabel.setText("Bananas: " + String.format("%d",(int) player.bananas));
-        bpsLabel.setText(String.format("%.1f", player.bananasPerSecond) + " bananas/second");
+        bananaCountLabel.setText("Bananas: " + formatNumber((int) player.bananas));
+        bpsLabel.setText(formatNumber(player.bananasPerSecond) + " bananas/second");
         updateShopItems();
     }
     
@@ -302,6 +302,16 @@ public class BananaClickerGUI extends JFrame {
             return String.format("%.1fK", number / 1000.0);
         } else {
             return String.format("%.1fM", number / 1000000.0);
+        }
+    }
+
+    private String formatNumber(double number) {
+        if(number < 1000) {
+            return String.format("%.1f", number);
+        } else if (number < 1000000) {
+            return formatNumber(number / 1000.0) + "K";
+        } else {
+            return formatNumber(number / 1000000.0) + "M";
         }
     }
 }
