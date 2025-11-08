@@ -20,7 +20,7 @@ public class Building extends Purchaseable {
         this.bananasPerSecond = bananasPerSecond;
     }
 
-    public void initBuildingList() {
+    public static void initBuildingList() {
         buildingList.add(new Building("Cursor", 10, 0.1));
         buildingList.add(new Building("Laborer", 100, 2));
     }

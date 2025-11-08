@@ -125,7 +125,7 @@ public class BananaClickerGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(shopPanel);
         scrollPane.setPreferredSize(new Dimension(300, 0));
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        
+        System.out.println(Building.buildingList);
         // Create shop items
         for (Building building : Building.buildingList) {
             System.out.println(building);
