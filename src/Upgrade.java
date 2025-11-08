@@ -34,14 +34,27 @@ public class Upgrade extends Purchaseable{
         this.description = description;
     }
 
+    public static void initUpgrades() {
+        upgrades.add(new Upgrade(2, 0, "Cursor Upgrade I", 
+            1, null, new ArrayList<Upgrade>(), "Increases efficiency of cursors", 20));
+        for(Upgrade u : upgrades) {
+            hiddenUpgrades.add(u);
+        }
+        unhideUpgrades();
+    }
+
     /**
      * Move an upgrade from the shown upgrades to the purchased. 
      * Then go through hidden upgrades to see if any more are purchaseable.
      * @param upgrade
      */
-    public void purchaseUpgrade(Upgrade upgrade) {
+    public static void purchaseUpgrade(Upgrade upgrade) {
         shownUpgrades.remove(upgrade);
         purchasedUpgrades.add(upgrade);
+        unhideUpgrades();
+    }
+
+    public static void unhideUpgrades() {
         for(int i = 0; i < hiddenUpgrades.size(); i++) {
             Upgrade hiddenUpgrade = hiddenUpgrades.get(i);
             boolean stayHidden = false;
