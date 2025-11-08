@@ -17,19 +17,6 @@ public class Sprite {
         loadImage("backgroundTier3", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier3Background.png");
         loadImage("backgroundTier4", "/Users/landonholmberg/Library/CloudStorage/OneDrive-UniversityofNebraska-Lincoln/CornHacks/BananaInc/sprites/tier4Background.png");
     }
-
-    static {
-        // Initialize your images here
-        // For now, we'll use null - replace these with actual image loading
-        images.put("bananaRebirthTier1", null);
-        images.put("grandma", null);
-        images.put("farm", null);
-        images.put("factory", null);
-        images.put("mine", null);
-        images.put("shipment", null);
-        images.put("portal", null);
-        images.put("background", null);
-    }
     
     public static Image getBananaImage() {
         return images.get("banana");
