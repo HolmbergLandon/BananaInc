@@ -27,7 +27,7 @@ public class BananaClickerGUI extends JFrame {
         setTitle("Banana Clicker");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        getContentPane().setBackground(new Color(245, 222, 179)); // Banana cream background
+        setBackgroundBasedOnTier();
         
         // Apply custom look and feel
         try {
@@ -71,28 +71,29 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void createBananaButton() {
-        JPanel centerPanel = new JPanel(new GridBagLayout());
-        centerPanel.setBackground(new Color(245, 222, 179));
-        
-        bananaButton = new JButton() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                // Draw banana image - replace with your Sprite class image
-                Image bananaImage = Sprite.getBananaImage();
-                if (bananaImage != null) {
-                    g2d.drawImage(bananaImage, 0, 0, getWidth(), getHeight(), this);
-                } else {
-                    // Fallback drawing
-                    g2d.setColor(Color.YELLOW);
-                    g2d.fillOval(10, 10, getWidth() - 20, getHeight() - 20);
-                    g2d.setColor(new Color(139, 69, 19));
-                    g2d.fillArc(getWidth()/2 - 20, 15, 40, 30, 0, 180);
-                }
+       JPanel centerPanel = new JPanel(new GridBagLayout());
+    centerPanel.setBackground(new Color(245, 222, 179));
+    
+    bananaButton = new JButton() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
+            // CHANGE THIS LINE: Use tier-based banana image
+            Image bananaImage = Sprite.getBananaImage(player.timesRebirthed);
+            if (bananaImage != null) {
+                g2d.drawImage(bananaImage, 0, 0, getWidth(), getHeight(), this);
+            } else {
+                // Fallback drawing
+                g2d.setColor(Color.YELLOW);
+                g2d.fillOval(10, 10, getWidth() - 20, getHeight() - 20);
+                g2d.setColor(new Color(139, 69, 19));
+                g2d.fillArc(getWidth()/2 - 20, 15, 40, 30, 0, 180);
             }
-        };
+        }
+    };
+
         
         bananaButton.setPreferredSize(new Dimension(300, 300));
         bananaButton.setBorder(BorderFactory.createEmptyBorder());
@@ -114,6 +115,9 @@ public class BananaClickerGUI extends JFrame {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 System.out.println("Clicked");
                 player.clickBanana();
+                updateDisplay();
+                
+                // Optional check if we should update tier graphics
             }
         });
 
@@ -305,6 +309,44 @@ public class BananaClickerGUI extends JFrame {
         }
     }
 
+<<<<<<< HEAD
+        /**
+     * Set background based on player's rebirth tier
+     */
+    private void setBackgroundBasedOnTier() {
+        Image backgroundImage = Sprite.getBackgroundImage(player.timesRebirthed);
+        if (backgroundImage != null) {
+            // Create a panel with the background image
+            JPanel backgroundPanel = new JPanel(new BorderLayout()) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            setContentPane(backgroundPanel);
+        } else {
+            // Fallback to solid color
+            getContentPane().setBackground(new Color(245, 222, 179));
+        }
+    }
+
+    /**
+     * Refresh both background and banana when tier changes
+     */
+    public void refreshTierGraphics() {
+        setBackgroundBasedOnTier();
+        bananaButton.repaint(); // This will make the banana button redraw with the correct tier image
+        revalidate(); // Refresh the layout
+
+        // Update the GUI components since we changed the content pane
+        setupGUI();
+
+        // Update title to show current tier
+        setTitle("Banana Clicker - Tier " + Math.max(1, Math.min(player.timesRebirthed + 1, 4)));
+    }
+
+=======
     private String formatNumber(double number) {
         if(number < 1000) {
             return String.format("%.1f", number);
@@ -314,4 +356,5 @@ public class BananaClickerGUI extends JFrame {
             return formatNumber(number / 1000000.0) + "M";
         }
     }
+>>>>>>> 2eb70e3f8068f01bdd8d2dfafcaac0b79b01d3b6
 }
