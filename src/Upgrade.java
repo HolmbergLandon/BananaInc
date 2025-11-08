@@ -4,6 +4,7 @@ public class Upgrade {
     public static ArrayList<Upgrade> upgrades = new ArrayList<>();
     public static ArrayList<Upgrade> shownUpgrades = new ArrayList<>();
     public static ArrayList<Upgrade> purchasedUpgrades = new ArrayList<>();
+    public static ArrayList<Upgrade> hiddenUpgrades = new ArrayList<>();
 
     public String name;
     public int indexUpgraded;
@@ -30,7 +31,25 @@ public class Upgrade {
         this.requiredUpgrades = requiredUpgrades;
     }
 
-    public 
+    public void purchaseUpgrade(Upgrade upgrade) {
+        shownUpgrades.remove(upgrade);
+        purchasedUpgrades.add(upgrade);
+        for(int i = 0; i < hiddenUpgrades.size(); i++) {
+            Upgrade hiddenUpgrade = hiddenUpgrades.get(i);
+            boolean stayHidden = false;
+            for(Upgrade u : hiddenUpgrade.requiredUpgrades) {
+                if(!purchasedUpgrades.contains(u)) {
+                    // Means that the upgrade cannot be purchased yet, keep hidden.
+                    stayHidden = true;
+                    break;
+                }
+            }
+            if(!stayHidden) {
+                
+            }
+        }
+
+    }
 
 
 
