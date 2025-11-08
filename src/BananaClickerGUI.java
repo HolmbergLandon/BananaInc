@@ -13,6 +13,7 @@ public class BananaClickerGUI extends JFrame {
     private JButton bananaButton;
     private JPanel upgradesPanel;
     private JPanel shopPanel;
+    private JPanel upgradeShopPanel;
     
     // Upgrade items
     
@@ -41,6 +42,7 @@ public class BananaClickerGUI extends JFrame {
     private void setupGUI() {
         createHeaderPanel();
         createBananaButton();
+        createUpgradeShopPanel();
         createShopPanel();
         createUpgradesPanel();
         
@@ -273,6 +275,7 @@ public class BananaClickerGUI extends JFrame {
         bananaCountLabel.setText("Bananas: " + formatNumber((int) player.bananas));
         bpsLabel.setText(formatNumber(player.bananasPerSecond) + " bananas/second");
         updateShopItems();
+        updateUpgradeShop();
     }
     
     private void animateClick() {
@@ -303,21 +306,45 @@ public class BananaClickerGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.bananas += player.bananasPerSecond / 100;
+                
+                // Check if any new upgrades should become available
+                checkForNewUpgrades();
+                
                 updateDisplay();
             }
         });
         gameTimer.start();
     }
-    
-    private String formatNumber(int number) {
-        if (number < 1000) {
-            return String.valueOf(number);
-        } else if (number < 1000000) {
-            return String.format("%.1fK", number / 1000.0);
-        } else {
-            return String.format("%.1fM", number / 1000000.0);
+
+    /**
+     * Check if any upgrades should become visible based on game progress
+     */
+    private void checkForNewUpgrades() {
+        for (Upgrade upgrade : Upgrade.upgradeList) {
+            if (!upgrade.isVisible() && shouldUpgradeBeVisible(upgrade)) {
+                upgrade.setVisible(true);
+                updateUpgradeShop(); // Refresh to show new upgrade
+            }
         }
     }
+
+    /**
+     * Determine if an upgrade should become visible based on game state
+     */
+    private boolean shouldUpgradeBeVisible(Upgrade upgrade) {
+        // Example conditions - modify based on your upgrade requirements
+        switch (upgrade.name) {
+            case "Double Click":
+                return player.bananas >= 100;
+            case "Auto Clicker":
+                return player.bananas >= 500;
+            case "Banana Multiplier":
+                return player.bananaPerSecond >= 10;
+            // Add more conditions for other upgrades
+            default:
+                return player.bananas >= upgrade.price * 0.5; // Default: show when player has half the cost
+        }
+}
 
     private String formatNumber(double number) {
         if (number < 1000) {
@@ -389,4 +416,111 @@ public class BananaClickerGUI extends JFrame {
         System.out.println("============================");
     }
 
+    private void createUpgradeShopPanel() {
+        upgradeShopPanel = new JPanel();
+        upgradeShopPanel.setLayout(new BoxLayout(upgradeShopPanel, BoxLayout.Y_AXIS));
+        upgradeShopPanel.setBackground(new Color(180, 160, 120)); // Different color than buildings
+        upgradeShopPanel.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(new Color(120, 80, 40), 2),
+            "Available Upgrades"
+        ));
+        upgradeShopPanel.setPreferredSize(new Dimension(300, 150)); // Smaller than buildings panel
+        
+        JScrollPane upgradeScrollPane = new JScrollPane(upgradeShopPanel);
+        upgradeScrollPane.setPreferredSize(new Dimension(300, 150));
+        upgradeScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        
+        add(upgradeScrollPane, BorderLayout.WEST); // Place on left side above buildings
+    }
+
+    /**
+ * Update the upgrade shop panel with currently available upgrades
+ */
+private void updateUpgradeShop() {
+    // Clear existing upgrade items
+    upgradeShopPanel.removeAll();
+    
+    // Add currently available upgrades
+    for (Upgrade upgrade : Upgrade.upgradeList) {
+        if (upgrade.isVisible() && !upgrade.isPurchased()) {
+            upgradeShopPanel.add(createUpgradeItemPanel(upgrade));
+            upgradeShopPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        }
+    }
+    
+    // Refresh the panel
+    upgradeShopPanel.revalidate();
+    upgradeShopPanel.repaint();
+}
+
+/**
+ * Create a panel for an upgrade item
+ */
+private JPanel createUpgradeItemPanel(Upgrade upgrade) {
+    JPanel itemPanel = new JPanel(new BorderLayout());
+    itemPanel.setBackground(new Color(225, 205, 165));
+    itemPanel.setBorder(BorderFactory.createCompoundBorder(
+        BorderFactory.createLineBorder(new Color(120, 80, 40), 1),
+        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+    ));
+    itemPanel.setMaximumSize(new Dimension(280, 70));
+
+    // Item icon
+    JLabel iconLabel = new JLabel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Image icon = Sprite.getUpgradeImage(upgrade.name);
+            if (icon != null) {
+                g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+            } else {
+                // Fallback icon
+                g.setColor(Color.ORANGE);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                g.setColor(Color.BLACK);
+                g.drawString("UP", getWidth() / 2 - 8, getHeight() / 2 + 5);
+            }
+        }
+    };
+    iconLabel.setPreferredSize(new Dimension(40, 40));
+
+    // Item info
+    JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+    infoPanel.setBackground(new Color(225, 205, 165));
+
+    JLabel nameLabel = new JLabel(upgrade.name);
+    nameLabel.setFont(new Font("Arial", Font.BOLD, 12));
+
+    JLabel costLabel = new JLabel("Cost: " + formatNumber(upgrade.price) + " bananas");
+    costLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+
+    infoPanel.add(nameLabel);
+    infoPanel.add(costLabel);
+
+    // Buy button
+    JButton buyButton = new JButton("Buy");
+    buyButton.setBackground(new Color(65, 105, 225)); // Different color than buildings
+    buyButton.setForeground(Color.WHITE);
+    buyButton.setFocusPainted(false);
+    buyButton.setPreferredSize(new Dimension(50, 25));
+    buyButton.setFont(new Font("Arial", Font.BOLD, 10));
+
+    buyButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Upgrade purchased: " + upgrade.name);
+            if (player.attemptPurchase(upgrade)) {
+                // Upgrade was purchased successfully
+                updateUpgradeShop(); // Refresh to remove purchased upgrade
+                updateDisplay();
+            }
+        }
+    });
+
+    itemPanel.add(iconLabel, BorderLayout.WEST);
+    itemPanel.add(infoPanel, BorderLayout.CENTER);
+    itemPanel.add(buyButton, BorderLayout.EAST);
+
+    return itemPanel;
+}
 }
