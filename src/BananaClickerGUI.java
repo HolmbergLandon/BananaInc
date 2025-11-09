@@ -291,7 +291,6 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void startGameLoop() {
-<<<<<<< HEAD
         Timer gameTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -302,13 +301,6 @@ public class BananaClickerGUI extends JFrame {
                 
                 updateDisplay();
             }
-=======
-        Timer gameTimer = new Timer(10, (ActionEvent e) -> {
-            player.setBananasPerSecond();
-            player.bananas += player.bananasPerSecond / 100;
-            // Check if any new upgrades should become available
-            updateDisplay();
->>>>>>> 08ef40f9472522cce8a777abe3075820b7662b4b
         });
         gameTimer.start();
     }
