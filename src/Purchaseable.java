@@ -12,6 +12,13 @@ public abstract class Purchaseable {
         this.count = 0;
     }
 
+    public Purchaseable(Purchaseable purchaseable) {
+        this.name = purchaseable.name;
+        this.basePrice = purchaseable.basePrice;
+        this.price = this.basePrice;
+        this.count = 0;
+    }
+
     /**
      * Given a number of bananas, return whether or not the building is purchaseable.
      * @param bananas The number of bananas that the user has.

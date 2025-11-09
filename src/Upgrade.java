@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Upgrade extends Purchaseable{
+public class Upgrade extends Purchaseable {
     public static ArrayList<Upgrade> upgrades = new ArrayList<>();
     public static ArrayList<Upgrade> shownUpgrades = new ArrayList<>();
     public static ArrayList<Upgrade> purchasedUpgrades = new ArrayList<>();
@@ -34,6 +34,16 @@ public class Upgrade extends Purchaseable{
         this.description = description;
     }
 
+    public Upgrade(Upgrade upgrade) {
+        super(upgrade);
+        this.bananasPerSecondMultiplier = upgrade.bananasPerSecondMultiplier;
+        this.indexUpgraded = upgrade.indexUpgraded;
+        this.priceMultiplier = upgrade.priceMultiplier;
+        this.sprite = upgrade.sprite;
+        this.requiredUpgrades = upgrade.requiredUpgrades;
+        this.description = upgrade.description;
+    }
+
     public static void initUpgrades() {
         upgrades.add(new Upgrade(2, -1, "Click Upgrade", 
             1, null, new ArrayList<>(), "Increases efficiency of clicking", 100));
@@ -63,8 +73,9 @@ public class Upgrade extends Purchaseable{
      * @param upgrade
      */
     public static void purchaseUpgrade(Upgrade upgrade) {
-        shownUpgrades.remove(upgrade);
-        purchasedUpgrades.add(upgrade);
+        //shownUpgrades.remove(upgrade);
+        purchasedUpgrades.add(new Upgrade(upgrade));
+        
         unhideUpgrades();
     }
 
@@ -103,8 +114,7 @@ public class Upgrade extends Purchaseable{
      */
     public static double getBananaMultiplierForBuildingIndex(int index) {
         double modifier = 1;
-        for(int i = 0; i < purchasedUpgrades.size(); i++) {
-            Upgrade upgrade = purchasedUpgrades.get(i);
+        for(Upgrade upgrade : Upgrade.purchasedUpgrades) {
             if(upgrade.indexUpgraded == index) {
                 modifier *= upgrade.bananasPerSecondMultiplier;
             }

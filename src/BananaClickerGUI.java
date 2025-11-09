@@ -83,12 +83,12 @@ public class BananaClickerGUI extends JFrame {
             Image backgroundImage = Sprite.getBackgroundImage(player.timesRebirthed);
             if (backgroundImage != null) {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                System.out.println("Drawing background image for tier: " + player.timesRebirthed); // Debug
+                //System.out.println("Drawing background image for tier: " + player.timesRebirthed); // Debug
             } else {
                 // Fallback to solid color
                 g.setColor(new Color(245, 222, 179));
                 g.fillRect(0, 0, getWidth(), getHeight());
-                System.out.println("Background image is NULL for tier: " + player.timesRebirthed); // Debug
+                //System.out.println("Background image is NULL for tier: " + player.timesRebirthed); // Debug
             }
         }
     };
@@ -103,14 +103,14 @@ public class BananaClickerGUI extends JFrame {
             Image bananaImage = Sprite.getBananaImage(player.timesRebirthed);
             if (bananaImage != null) {
                 g2d.drawImage(bananaImage, 0, 0, getWidth(), getHeight(), this);
-                System.out.println("Drawing banana image for tier: " + player.timesRebirthed); // Debug
+                //System.out.println("Drawing banana image for tier: " + player.timesRebirthed); // Debug
             } else {
                 // Fallback drawing
                 g2d.setColor(Color.YELLOW);
                 g2d.fillOval(10, 10, getWidth() - 20, getHeight() - 20);
                 g2d.setColor(new Color(139, 69, 19));
                 g2d.fillArc(getWidth()/2 - 20, 15, 40, 30, 0, 180);
-                System.out.println("Banana image is NULL for tier: " + player.timesRebirthed); // Debug
+                //System.out.println("Banana image is NULL for tier: " + player.timesRebirthed); // Debug
             }
         }
     };
@@ -183,7 +183,7 @@ public class BananaClickerGUI extends JFrame {
                     g.fillRect(0, 0, getWidth(), getHeight());
                     g.setColor(Color.DARK_GRAY);
                     g.drawString(building.name.substring(0, 1), getWidth() / 2 - 5, getHeight() / 2 + 5);
-                    System.out.println("Image not found");
+                    //System.out.println("Image not found");
                 }
             }
         };
@@ -216,11 +216,11 @@ public class BananaClickerGUI extends JFrame {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button pressed: " + building.name);
+                //System.out.println("Button pressed: " + building.name);
                 player.attemptPurchase(building);
-                for(Building b : Building.buildingList) {
-                    System.out.print(b + " " + b.count + "\n");
-                }
+                //for(Building b : Building.buildingList) {
+                //    System.out.print(b + " " + b.count + "\n");
+                //}
 
             }
         });
@@ -306,8 +306,9 @@ public class BananaClickerGUI extends JFrame {
         Timer gameTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                player.setBananasPerSecond();
                 player.bananas += player.bananasPerSecond / 100;
-                
+                //System.out.println(player.bananasPerSecond);
                 // Check if any new upgrades should become available
                 
                 updateDisplay();
@@ -385,15 +386,15 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void debugImageLoading() {
-        System.out.println("=== DEBUG: Image Loading ===");
-        System.out.println("Player rebirth tier: " + player.timesRebirthed);
+        //System.out.println("=== DEBUG: Image Loading ===");
+        //System.out.println("Player rebirth tier: " + player.timesRebirthed);
 
         Image backgroundImage = Sprite.getBackgroundImage(player.timesRebirthed);
         Image bananaImage = Sprite.getBananaImage(player.timesRebirthed);
 
-        System.out.println("Background image: " + (backgroundImage != null ? "LOADED" : "NULL"));
-        System.out.println("Banana image: " + (bananaImage != null ? "LOADED" : "NULL"));
-        System.out.println("============================");
+        //System.out.println("Background image: " + (backgroundImage != null ? "LOADED" : "NULL"));
+        //System.out.println("Banana image: " + (bananaImage != null ? "LOADED" : "NULL"));
+        //System.out.println("============================");
     }
 
     private void createUpgradeShopPanel() {
@@ -488,11 +489,12 @@ private JPanel createUpgradeItemPanel(Upgrade upgrade) {
     buyButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Upgrade purchased: " + upgrade.name);
+            //System.out.println("Upgrade purchased: " + upgrade.name);
             if (player.attemptPurchase(upgrade)) {
                 // Upgrade was purchased successfully
                 updateUpgradeShop(); // Refresh to remove purchased upgrade
                 updateDisplay();
+                Upgrade.purchaseUpgrade(upgrade);
             }
         }
     });
