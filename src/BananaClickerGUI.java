@@ -199,9 +199,13 @@ public class BananaClickerGUI extends JFrame {
         JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
         costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
-        JLabel effectLabel = new JLabel("+" + building.bananasPerSecond + " bananas/sec");
+        JLabel effectLabel = new JLabel("+" + building.getSingularBananasPerSecond() + " bananas/sec");
         effectLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
+        Timer timer = new Timer(10, (actionEvent) -> {
+            effectLabel.setText("+" + building.getSingularBananasPerSecond() + " bananas/sec");
+        });
+        timer.start();
         infoPanel.add(nameLabel);
         infoPanel.add(costLabel);
         infoPanel.add(effectLabel);
@@ -291,24 +295,14 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void startGameLoop() {
-<<<<<<< HEAD
         Timer gameTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.setBananasPerSecond();
                 player.bananas += player.bananasPerSecond / 100 * player.rebirthMultiplier;
-                //System.out.println(player.bananasPerSecond);
                 // Check if any new upgrades should become available
-                
                 updateDisplay();
             }
-=======
-        Timer gameTimer = new Timer(10, (ActionEvent e) -> {
-            player.setBananasPerSecond();
-            player.bananas += player.bananasPerSecond / 100;
-            // Check if any new upgrades should become available
-            updateDisplay();
->>>>>>> 08ef40f9472522cce8a777abe3075820b7662b4b
         });
         gameTimer.start();
     }
