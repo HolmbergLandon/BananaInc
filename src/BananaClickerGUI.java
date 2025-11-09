@@ -307,7 +307,7 @@ public class BananaClickerGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.setBananasPerSecond();
-                player.bananas += player.bananasPerSecond / 100;
+                player.bananas += player.bananasPerSecond / 100 * player.rebirthMultiplier;
                 //System.out.println(player.bananasPerSecond);
                 // Check if any new upgrades should become available
                 

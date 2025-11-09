@@ -1,11 +1,14 @@
 
 public class Player {
     // All player variables
+    static double INITIAL_REBIRTH_COST = 1000000;
+    public double rebirthMultiplier = 1;
     public double bananas; 
     public double bananaPerClick;
     public double bananasPerSecond;
     public String username; 
     public int timesRebirthed;
+    public double RebirthCost = getRebirthCost();
     public int rebirthTier = checkRebirthTier();
     
     // Player constructor passing only username
@@ -70,4 +73,14 @@ public class Player {
         return true;
     }
 
+    public double getRebirthCost() {
+        if (timesRebirthed > 1){
+            return Math.pow(1.5, timesRebirthed) * INITIAL_REBIRTH_COST;
+        }
+        return INITIAL_REBIRTH_COST;
+    }
+
+    public void setRebirthModifier() {
+        this.rebirthMultiplier = Math.pow(1.1, timesRebirthed) * rebirthMultiplier;
+    }
 }
