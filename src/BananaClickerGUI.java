@@ -160,71 +160,89 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private JPanel createShopItemPanel(Building building) {
-        JPanel itemPanel = new JPanel(new BorderLayout());
-        itemPanel.setBackground(new Color(245, 222, 179));
-        itemPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(139, 69, 19), 1),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
+    JPanel itemPanel = new JPanel(new BorderLayout());
+    itemPanel.setBackground(new Color(245, 222, 179));
+    itemPanel.setBorder(BorderFactory.createCompoundBorder(
+        BorderFactory.createLineBorder(new Color(139, 69, 19), 1),
+        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+    ));
 
-        itemPanel.setMaximumSize(new Dimension(280, 80));
-        
-        // Item icon
-        JLabel iconLabel = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Image icon = Sprite.getUpgradeImage(building.name);
-                if (icon != null) {
-                    g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
-                } else {
-                    // Fallback icon
-                    g.setColor(Color.LIGHT_GRAY);
-                    g.fillRect(0, 0, getWidth(), getHeight());
-                    g.setColor(Color.DARK_GRAY);
-                    g.drawString(building.name.substring(0, 1), getWidth() / 2 - 5, getHeight() / 2 + 5);
-                    //System.out.println("Image not found");
-                }
+    itemPanel.setMaximumSize(new Dimension(280, 80));
+    
+    // Item icon
+    JLabel iconLabel = new JLabel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Image icon = Sprite.getUpgradeImage(building.name);
+            if (icon != null) {
+                g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+            } else {
+                // Fallback icon
+                g.setColor(Color.LIGHT_GRAY);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                g.setColor(Color.DARK_GRAY);
+                g.drawString(building.name.substring(0, 1), getWidth() / 2 - 5, getHeight() / 2 + 5);
             }
-        };
-        iconLabel.setPreferredSize(new Dimension(50, 50));
-        
-        // Item info
-        JPanel infoPanel = new JPanel(new GridLayout(3, 1));
-        infoPanel.setBackground(new Color(245, 222, 179));
-        
-        JLabel nameLabel = new JLabel(building.name);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        
-        JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
-        costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        
-        JLabel effectLabel = new JLabel("+" + building.getSingularBananasPerSecond() + " bananas/sec");
-        effectLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        
-        Timer timer = new Timer(10, (actionEvent) -> {
-            effectLabel.setText("+" + building.getSingularBananasPerSecond() + " bananas/sec");
-        });
-        timer.start();
-        infoPanel.add(nameLabel);
-        infoPanel.add(costLabel);
-        infoPanel.add(effectLabel);
-        
-        // Buy button
-        JButton buyButton = new JButton("Buy");
-        buyButton.setBackground(new Color(34, 139, 34)); // Forest green
-        buyButton.setForeground(Color.WHITE);
-        buyButton.setFocusPainted(false);
-        buyButton.setPreferredSize(new Dimension(60, 30));
-        
-        buyButton.addActionListener((ActionEvent e) -> {player.attemptPurchase(building);});
+        }
+    };
+    iconLabel.setPreferredSize(new Dimension(50, 50));
+    
+    // Item info - Compact version (3 rows but includes owned info)
+    JPanel infoPanel = new JPanel(new GridLayout(3, 1));
+    infoPanel.setBackground(new Color(245, 222, 179));
+    
+    // First row: Name and owned count
+    JPanel nameRow = new JPanel(new BorderLayout());
+    nameRow.setBackground(new Color(245, 222, 179));
+    JLabel nameLabel = new JLabel(building.name);
+    nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
+    
+    JLabel ownedLabel = new JLabel("x" + building.count);
+    ownedLabel.setFont(new Font("Arial", Font.BOLD, 12));
+    ownedLabel.setForeground(new Color(75, 0, 130));
+    ownedLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    
+    nameRow.add(nameLabel, BorderLayout.WEST);
+    nameRow.add(ownedLabel, BorderLayout.EAST);
+    
+    // Second row: Cost
+    JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
+    costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    
+    // Third row: Effect
+    JLabel effectLabel = new JLabel("+" + building.getSingularBananasPerSecond() + " bananas/sec each");
+    effectLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    
+    // Timer to update the labels
+    Timer timer = new Timer(10, (actionEvent) -> {
+        effectLabel.setText("+" + building.getSingularBananasPerSecond() + " bananas/sec each");
+        ownedLabel.setText("x" + building.count); // Update the owned count
+    });
+    timer.start();
+    
+    infoPanel.add(nameRow);
+    infoPanel.add(costLabel);
+    infoPanel.add(effectLabel);
+    
+    // Buy button
+    JButton buyButton = new JButton("Buy");
+    buyButton.setBackground(new Color(34, 139, 34)); // Forest green
+    buyButton.setForeground(Color.WHITE);
+    buyButton.setFocusPainted(false);
+    buyButton.setPreferredSize(new Dimension(60, 30));
+    
+    buyButton.addActionListener((ActionEvent e) -> {
+        player.attemptPurchase(building);
+        // The timer above will automatically update the owned label
+    });
 
-        itemPanel.add(iconLabel, BorderLayout.WEST);
-        itemPanel.add(infoPanel, BorderLayout.CENTER);
-        itemPanel.add(buyButton, BorderLayout.EAST);
-        
-        return itemPanel;
-    }
+    itemPanel.add(iconLabel, BorderLayout.WEST);
+    itemPanel.add(infoPanel, BorderLayout.CENTER);
+    itemPanel.add(buyButton, BorderLayout.EAST);
+    
+    return itemPanel;
+}
     
     private void createUpgradesPanel() {
     upgradesPanel = new JPanel(new BorderLayout());
