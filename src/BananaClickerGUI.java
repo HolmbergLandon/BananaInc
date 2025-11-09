@@ -227,12 +227,170 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void createUpgradesPanel() {
-        upgradesPanel = new JPanel(new FlowLayout());
-        upgradesPanel.setBackground(new Color(210, 180, 140));
-        upgradesPanel.setBorder(BorderFactory.createTitledBorder("Active Upgrades"));
-        upgradesPanel.setPreferredSize(new Dimension(0, 100));
+    upgradesPanel = new JPanel(new BorderLayout());
+    upgradesPanel.setBackground(new Color(210, 180, 140));
+    upgradesPanel.setBorder(BorderFactory.createTitledBorder("Rebirth & Upgrades"));
+    upgradesPanel.setPreferredSize(new Dimension(0, 120));
+    
+    // Create rebirth panel on the left
+    JPanel rebirthPanel = createRebirthPanel();
+    
+    // Create active upgrades panel on the right (keeping your existing functionality)
+    JPanel activeUpgradesPanel = new JPanel(new FlowLayout());
+    activeUpgradesPanel.setBackground(new Color(210, 180, 140));
+    activeUpgradesPanel.setBorder(BorderFactory.createTitledBorder("Active Upgrades"));
+    
+    // Add both panels to the main upgrades panel
+    upgradesPanel.add(rebirthPanel, BorderLayout.WEST);
+    upgradesPanel.add(activeUpgradesPanel, BorderLayout.CENTER);
+    
+    add(upgradesPanel, BorderLayout.SOUTH);
+}
+
+/**
+ * Create the rebirth panel with rebirth button and info
+ */
+private JPanel createRebirthPanel() {
+    JPanel rebirthPanel = new JPanel(new BorderLayout());
+    rebirthPanel.setBackground(new Color(180, 160, 120));
+    rebirthPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+    rebirthPanel.setPreferredSize(new Dimension(300, 100));
+    
+    // Rebirth info panel
+    JPanel infoPanel = new JPanel(new GridLayout(3, 1));
+    infoPanel.setBackground(new Color(180, 160, 120));
+    
+    JLabel rebirthTitle = new JLabel("Rebirth", SwingConstants.CENTER);
+    rebirthTitle.setFont(new Font("Arial", Font.BOLD, 14));
+    rebirthTitle.setForeground(new Color(75, 0, 130)); // Purple color
+    
+    JLabel rebirthCostLabel = new JLabel("Cost: " + formatNumber((int)player.RebirthCost) + " bananas", SwingConstants.CENTER);
+    rebirthCostLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    
+    JLabel rebirthStatsLabel = new JLabel("Times Rebirthed: " + player.timesRebirthed, SwingConstants.CENTER);
+    rebirthStatsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    
+    infoPanel.add(rebirthTitle);
+    infoPanel.add(rebirthCostLabel);
+    infoPanel.add(rebirthStatsLabel);
+    
+    // Rebirth button
+    JButton rebirthButton = new JButton("REBIRTH");
+    rebirthButton.setBackground(new Color(128, 0, 128)); // Purple
+    rebirthButton.setForeground(Color.WHITE);
+    rebirthButton.setFont(new Font("Arial", Font.BOLD, 12));
+    rebirthButton.setFocusPainted(false);
+    rebirthButton.setPreferredSize(new Dimension(80, 40));
+    
+    rebirthButton.addActionListener((ActionEvent e) -> {
+        attemptRebirth();
+    });
+    
+    // Update rebirth cost periodically
+    Timer rebirthUpdateTimer = new Timer(1000, (ActionEvent e) -> {
+        rebirthCostLabel.setText("Cost: " + formatNumber((int)player.getRebirthCost()) + " bananas");
+        rebirthStatsLabel.setText("Times Rebirthed: " + player.timesRebirthed);
         
-        add(upgradesPanel, BorderLayout.SOUTH);
+        // Enable/disable button based on affordability
+        rebirthButton.setEnabled(player.bananas >= player.getRebirthCost());
+        
+        // Change button color based on affordability
+        if (player.bananas >= player.getRebirthCost()) {
+            rebirthButton.setBackground(new Color(75, 0, 130)); // Can afford - bright purple
+            rebirthButton.setToolTipText("Click to rebirth and gain permanent bonuses!");
+        } else {
+            rebirthButton.setBackground(new Color(128, 0, 128)); // Can't afford - dark purple
+            rebirthButton.setToolTipText("Need " + formatNumber((int)(player.getRebirthCost() - player.bananas)) + " more bananas");
+        }
+    });
+    rebirthUpdateTimer.start();
+    
+    rebirthPanel.add(infoPanel, BorderLayout.CENTER);
+    rebirthPanel.add(rebirthButton, BorderLayout.EAST);
+    
+    return rebirthPanel;
+}
+
+/**
+ * Handle rebirth purchase and effects
+ */
+private void attemptRebirth() {
+    double rebirthCost = player.getRebirthCost();
+    
+    if (player.bananas >= rebirthCost) {
+        int choice = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to rebirth?\n\n" +
+            "Cost: " + formatNumber((int)rebirthCost) + " bananas\n" +
+            "You will lose all buildings and bananas, but gain:\n" +
+            "• Permanent rebirth multiplier: " + String.format("%.1f", Math.pow(1.1, player.timesRebirthed + 1)) + "x\n" +
+            "• New rebirth tier: " + Math.min(player.rebirthTier + 1, 4) + "\n" +
+            "• Keep your upgrades\n\n" +
+            "Current rebirths: " + player.timesRebirthed + " → " + (player.timesRebirthed + 1),
+            "Confirm Rebirth",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (choice == JOptionPane.YES_OPTION) {
+            // Perform rebirth
+            performRebirth();
+        }
+    } else {
+        JOptionPane.showMessageDialog(
+            this,
+            "Not enough bananas for rebirth!\n" +
+            "You need " + formatNumber((int)rebirthCost) + " bananas, but only have " + formatNumber((int)player.bananas),
+            "Cannot Rebirth",
+            JOptionPane.WARNING_MESSAGE
+        );
+    }
+}
+
+/**
+ * Execute the rebirth process
+ */
+    private void performRebirth() {
+        double rebirthCost = player.getRebirthCost();
+        
+        // Store old values for display
+        int oldRebirthCount = player.timesRebirthed;
+        double oldMultiplier = player.rebirthMultiplier;
+        
+        // Perform rebirth
+        player.bananas -= rebirthCost;
+        player.timesRebirthed++;
+        
+        // Update rebirth multiplier and cost
+        player.setRebirthModifier();
+        
+        // Reset buildings but keep upgrades
+        for (Building building : Building.buildingList) {
+            building.count = 0;
+            building.price = building.basePrice; // Reset to base price if you have this field
+        }
+        
+        // Update player stats
+        player.setBananasPerSecond();
+        
+        // Show rebirth results
+        JOptionPane.showMessageDialog(
+            this,
+            "Rebirth successful! 🎉\n\n" +
+            "Rebirths: " + oldRebirthCount + " → " + player.timesRebirthed + "\n" +
+            "Multiplier: " + String.format("%.1f", oldMultiplier) + "x → " + String.format("%.1f", player.rebirthMultiplier) + "x\n" +
+            "New rebirth tier: " + player.rebirthTier + "\n\n" +
+            "All buildings have been reset, but you keep your upgrades!",
+            "Rebirth Complete!",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+        
+        // Refresh the display and graphics
+        updateDisplay();
+        refreshTierGraphics(); // This will update banana and background images based on new tier
+        
+        // Update rebirth cost display
+        player.RebirthCost = player.getRebirthCost();
     }
     
     private void updateShopItems() {
@@ -431,9 +589,8 @@ private JPanel createUpgradeItemPanel(Upgrade upgrade) {
     JPanel itemPanel = new JPanel(new BorderLayout());
     itemPanel.setBackground(new Color(225, 205, 165));
     itemPanel.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createLineBorder(new Color(120, 80, 40), 1),
-        BorderFactory.createEmptyBorder(5, 5, 5, 5)
-    ));
+            BorderFactory.createLineBorder(new Color(120, 80, 40), 1),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)));
     itemPanel.setMaximumSize(new Dimension(280, 70));
 
     // Item icon
