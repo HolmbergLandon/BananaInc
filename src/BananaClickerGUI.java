@@ -34,9 +34,9 @@ public class BananaClickerGUI extends JFrame {
     // Apply custom look and feel
     try {
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-    } catch (Exception e) {
-        e.printStackTrace();
-        }
+    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+        
+    }
     }
     
     private void setupGUI() {
@@ -213,17 +213,7 @@ public class BananaClickerGUI extends JFrame {
         buyButton.setFocusPainted(false);
         buyButton.setPreferredSize(new Dimension(60, 30));
         
-        buyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //System.out.println("Button pressed: " + building.name);
-                player.attemptPurchase(building);
-                //for(Building b : Building.buildingList) {
-                //    System.out.print(b + " " + b.count + "\n");
-                //}
-
-            }
-        });
+        buyButton.addActionListener((ActionEvent e) -> {player.attemptPurchase(building);});
 
         itemPanel.add(iconLabel, BorderLayout.WEST);
         itemPanel.add(infoPanel, BorderLayout.CENTER);
@@ -244,13 +234,10 @@ public class BananaClickerGUI extends JFrame {
     private void updateShopItems() {
         Component[] components = shopPanel.getComponents();
         for (Component comp : components) {
-            if (comp instanceof JPanel) {
-                JPanel itemPanel = (JPanel) comp;
+            if (comp instanceof JPanel itemPanel) {
                 Component[] itemComps = itemPanel.getComponents();
                 for (Component itemComp : itemComps) {
-                    if (itemComp instanceof JPanel) {
-                        // Update cost labels
-                        JPanel infoPanel = (JPanel) itemComp;
+                    if (itemComp instanceof JPanel infoPanel) {
                         Component[] infoComps = infoPanel.getComponents();
                         if (infoComps.length >= 2 && infoComps[1] instanceof JLabel) {
                             JLabel costLabel = (JLabel) infoComps[1];
@@ -279,6 +266,7 @@ public class BananaClickerGUI extends JFrame {
         updateUpgradeShop();
     }
     
+    @SuppressWarnings("unused")
     private void animateClick() {
         Timer timer = new Timer(100, new ActionListener() {
             float scale = 1.0f;
@@ -303,6 +291,7 @@ public class BananaClickerGUI extends JFrame {
     }
     
     private void startGameLoop() {
+<<<<<<< HEAD
         Timer gameTimer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -313,6 +302,13 @@ public class BananaClickerGUI extends JFrame {
                 
                 updateDisplay();
             }
+=======
+        Timer gameTimer = new Timer(10, (ActionEvent e) -> {
+            player.setBananasPerSecond();
+            player.bananas += player.bananasPerSecond / 100;
+            // Check if any new upgrades should become available
+            updateDisplay();
+>>>>>>> 08ef40f9472522cce8a777abe3075820b7662b4b
         });
         gameTimer.start();
     }
@@ -486,16 +482,12 @@ private JPanel createUpgradeItemPanel(Upgrade upgrade) {
     buyButton.setPreferredSize(new Dimension(50, 25));
     buyButton.setFont(new Font("Arial", Font.BOLD, 10));
 
-    buyButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //System.out.println("Upgrade purchased: " + upgrade.name);
-            if (player.attemptPurchase(upgrade)) {
-                // Upgrade was purchased successfully
-                updateUpgradeShop(); // Refresh to remove purchased upgrade
-                updateDisplay();
-                Upgrade.purchaseUpgrade(upgrade);
-            }
+    buyButton.addActionListener((ActionEvent e) -> {
+        if (player.attemptPurchase(upgrade)) {
+            // Upgrade was purchased successfully
+            updateUpgradeShop(); // Refresh to remove purchased upgrade
+            updateDisplay();
+            Upgrade.purchaseUpgrade(upgrade);
         }
     });
 
