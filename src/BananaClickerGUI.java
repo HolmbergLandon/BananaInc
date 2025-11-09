@@ -245,25 +245,31 @@ public class BananaClickerGUI extends JFrame {
 }
     
     private void createUpgradesPanel() {
-    upgradesPanel = new JPanel(new BorderLayout());
-    upgradesPanel.setBackground(new Color(210, 180, 140));
-    upgradesPanel.setBorder(BorderFactory.createTitledBorder("Rebirth & Upgrades"));
-    upgradesPanel.setPreferredSize(new Dimension(0, 120));
-    
-    // Create rebirth panel on the left
-    JPanel rebirthPanel = createRebirthPanel();
-    
-    // Create active upgrades panel on the right (keeping your existing functionality)
-    JPanel activeUpgradesPanel = new JPanel(new FlowLayout());
-    activeUpgradesPanel.setBackground(new Color(210, 180, 140));
-    activeUpgradesPanel.setBorder(BorderFactory.createTitledBorder("Active Upgrades"));
-    
-    // Add both panels to the main upgrades panel
-    upgradesPanel.add(rebirthPanel, BorderLayout.WEST);
-    upgradesPanel.add(activeUpgradesPanel, BorderLayout.CENTER);
-    
-    add(upgradesPanel, BorderLayout.SOUTH);
-}
+        upgradesPanel = new JPanel(new BorderLayout());
+        upgradesPanel.setBackground(new Color(210, 180, 140));
+        upgradesPanel.setBorder(BorderFactory.createTitledBorder("Rebirth & Upgrades"));
+        upgradesPanel.setPreferredSize(new Dimension(0, 120));
+        
+        // Create rebirth panel on the left
+        JPanel rebirthPanel = createRebirthPanel();
+        
+        // Create active upgrades panel on the right - CHANGED TO VERTICAL LAYOUT
+        JPanel activeUpgradesPanel = new JPanel();
+        activeUpgradesPanel.setLayout(new BoxLayout(activeUpgradesPanel, BoxLayout.Y_AXIS));
+        activeUpgradesPanel.setBackground(new Color(210, 180, 140));
+        activeUpgradesPanel.setBorder(BorderFactory.createTitledBorder("Active Upgrades"));
+        
+        // Create a scroll pane for active upgrades
+        JScrollPane activeUpgradesScroll = new JScrollPane(activeUpgradesPanel);
+        activeUpgradesScroll.setPreferredSize(new Dimension(200, 100));
+        activeUpgradesScroll.setBorder(BorderFactory.createEmptyBorder());
+        
+        // Add both panels to the main upgrades panel
+        upgradesPanel.add(rebirthPanel, BorderLayout.WEST);
+        upgradesPanel.add(activeUpgradesScroll, BorderLayout.CENTER);
+        
+        add(upgradesPanel, BorderLayout.SOUTH);
+    }
 
 /**
  * Create the rebirth panel with rebirth button and info
@@ -444,6 +450,7 @@ private void attemptRebirth() {
         bpsLabel.setText(formatNumber(player.bananasPerSecond) + " bananas/second");
         updateShopItems();
         updateUpgradeShop();
+        updateActiveUpgrades();
     }
     
     @SuppressWarnings("unused")
@@ -665,5 +672,91 @@ private JPanel createUpgradeItemPanel(Upgrade upgrade) {
     itemPanel.add(buyButton, BorderLayout.EAST);
 
     return itemPanel;
+}
+
+/**
+ * Update the active upgrades panel with purchased upgrades
+ */
+private void updateActiveUpgrades() {
+    // Get the active upgrades panel from the upgrades panel
+    JScrollPane scrollPane = (JScrollPane) upgradesPanel.getComponent(1);
+    JPanel activeUpgradesPanel = (JPanel) scrollPane.getViewport().getView();
+
+    // Clear existing active upgrades
+    activeUpgradesPanel.removeAll();
+
+    // Add purchased upgrades to the active upgrades panel
+    for (Upgrade upgrade : Upgrade.purchasedUpgrades) {
+        if (upgrade.isPurchased()) {
+            JPanel upgradePanel = createActiveUpgradePanel(upgrade);
+            activeUpgradesPanel.add(upgradePanel);
+            activeUpgradesPanel.add(Box.createRigidArea(new Dimension(0, 3)));
+        }
+    }
+
+    // If no upgrades purchased, show a message
+    if (Upgrade.purchasedUpgrades.isEmpty()) {
+        JLabel noUpgradesLabel = new JLabel("No upgrades purchased yet");
+        noUpgradesLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        noUpgradesLabel.setForeground(Color.GRAY);
+        noUpgradesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        activeUpgradesPanel.add(noUpgradesLabel);
+    }
+
+    // Refresh the panel
+    activeUpgradesPanel.revalidate();
+    activeUpgradesPanel.repaint();
+}
+
+/**
+ * Create a panel for a purchased upgrade in the active upgrades section
+ */
+private JPanel createActiveUpgradePanel(Upgrade upgrade) {
+    JPanel upgradePanel = new JPanel(new BorderLayout());
+    upgradePanel.setBackground(new Color(200, 180, 150));
+    upgradePanel.setBorder(BorderFactory.createCompoundBorder(
+        BorderFactory.createLineBorder(new Color(120, 80, 40), 1),
+        BorderFactory.createEmptyBorder(3, 5, 3, 5)
+    ));
+    upgradePanel.setMaximumSize(new Dimension(180, 30));
+    
+    // Upgrade icon (smaller version)
+    JLabel iconLabel = new JLabel() {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Image icon = Sprite.getUpgradeImage(upgrade.name);
+            if (icon != null) {
+                // Draw smaller icon for active upgrades
+                g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+            } else {
+                // Fallback icon
+                g.setColor(Color.ORANGE);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                g.setColor(Color.BLACK);
+                g.drawString("UP", getWidth() / 2 - 5, getHeight() / 2 + 3);
+            }
+        }
+    };
+    iconLabel.setPreferredSize(new Dimension(25, 25));
+    
+    // Upgrade name and effect
+    JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+    infoPanel.setBackground(new Color(200, 180, 150));
+    
+    JLabel nameLabel = new JLabel(upgrade.name);
+    nameLabel.setFont(new Font("Arial", Font.BOLD, 10));
+    
+    JLabel effectLabel = new JLabel(upgrade.description);
+    effectLabel.setFont(new Font("Arial", Font.PLAIN, 8));
+    effectLabel.setForeground(new Color(75, 0, 130));
+    
+    infoPanel.add(nameLabel);
+    infoPanel.add(effectLabel);
+    
+    upgradePanel.add(iconLabel, BorderLayout.WEST);
+    upgradePanel.add(infoPanel, BorderLayout.CENTER);
+    
+    return upgradePanel;
 }
 }
