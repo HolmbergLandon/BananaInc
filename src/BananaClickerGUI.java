@@ -199,11 +199,11 @@ public class BananaClickerGUI extends JFrame {
         JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
         costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
-        JLabel effectLabel = new JLabel("+" + building.getSingularBananasPerSecondToDisplay() + " bananas/sec");
+        JLabel effectLabel = new JLabel("+" + String.format("%.1f", building.getSingularBananasPerSecondToDisplay()) + " bananas/sec");
         effectLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
         Timer timer = new Timer(10, (actionEvent) -> {
-            effectLabel.setText("+" + building.getSingularBananasPerSecondToDisplay() + " bananas/sec");
+            effectLabel.setText("+" + String.format("%.1f", building.getSingularBananasPerSecondToDisplay()) + " bananas/sec");
         });
         timer.start();
         infoPanel.add(nameLabel);
