@@ -199,9 +199,13 @@ public class BananaClickerGUI extends JFrame {
         JLabel costLabel = new JLabel("Cost: " + formatNumber(building.price) + " bananas");
         costLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
-        JLabel effectLabel = new JLabel("+" + building.bananasPerSecond + " bananas/sec");
+        JLabel effectLabel = new JLabel("+" + building.getSingularBananasPerSecond() + " bananas/sec");
         effectLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         
+        Timer timer = new Timer(10, (actionEvent) -> {
+            effectLabel.setText("+" + building.getSingularBananasPerSecond() + " bananas/sec");
+        });
+        timer.start();
         infoPanel.add(nameLabel);
         infoPanel.add(costLabel);
         infoPanel.add(effectLabel);
@@ -296,9 +300,7 @@ public class BananaClickerGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 player.setBananasPerSecond();
                 player.bananas += player.bananasPerSecond / 100 * player.rebirthMultiplier;
-                //System.out.println(player.bananasPerSecond);
                 // Check if any new upgrades should become available
-                
                 updateDisplay();
             }
         });

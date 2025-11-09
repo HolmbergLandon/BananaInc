@@ -54,4 +54,10 @@ public class Building extends Purchaseable {
         this.price = (int) (individualMultiplier * basePrice * Math.pow(Purchaseable.PURCHASE_PRICE_MULTIPLIER, count));
     }
 
+    public double getSingularBananasPerSecond() {
+        if(this.count == 0) {
+            return this.bananasPerSecond;
+        }
+        return this.getBananasPerSecond() / this.count;
+    }
 }
