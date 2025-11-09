@@ -5,11 +5,6 @@ public class Game {
         Player player = new Player("Player");
         Building.initBuildingList();
         Upgrade.initUpgrades();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new BananaClickerGUI(player).setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> {new BananaClickerGUI(player).setVisible(true);});
     }
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 import javax.swing.*;
 
 public class Sprite {
-    private static Map<String, Image> images = new HashMap<>();
+    private static final Map<String, Image> images = new HashMap<>();
     
     
     static {
