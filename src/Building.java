@@ -4,6 +4,7 @@ public class Building extends Purchaseable {
     public double bananasPerSecond;
 
     public static final int NUM_BUILDINGS = 2;
+    public static Player player;
     
     // List of the possible buildings that the player can buy
     public static ArrayList<Building> buildingList = new ArrayList<>(NUM_BUILDINGS);
@@ -54,10 +55,14 @@ public class Building extends Purchaseable {
         this.price = (int) (individualMultiplier * basePrice * Math.pow(Purchaseable.PURCHASE_PRICE_MULTIPLIER, count));
     }
 
-    public double getSingularBananasPerSecond() {
+    public double getSingularBananasPerSecondToDisplay() {
         if(this.count == 0) {
-            return this.bananasPerSecond;
+            return this.bananasPerSecond * player.rebirthMultiplier;
         }
-        return this.getBananasPerSecond() / this.count;
+        return this.getBananasPerSecond() / this.count * player.rebirthMultiplier;
+    }
+
+    public static void setPlayer(Player player) {
+        Building.player = player;
     }
 }

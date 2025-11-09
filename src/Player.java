@@ -23,6 +23,7 @@ public class Player {
         for (Building b : Building.buildingList) {
             this.bananasPerSecond += b.getBananasPerSecond();
         }
+        this.bananasPerSecond *= this.rebirthMultiplier;
     }
 
     /**
@@ -38,9 +39,8 @@ public class Player {
     }
 
 
-    public void playerClickBananaAmount(int numCursorUpgrades, int numNeedNextTierCursor) {
-        int currentTier = numCursorUpgrades / numNeedNextTierCursor;
-        bananaPerClick = currentTier * numCursorUpgrades;
+    public void playerClickBananaAmount() {
+        this.bananaPerClick = Upgrade.getBananaMultiplierForBuildingIndex(-1) * this.rebirthMultiplier;
     }
 
     public void clickBanana() {
