@@ -457,7 +457,7 @@ private void attemptRebirth() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.setBananasPerSecond();
-                player.bananas += player.bananasPerSecond / 100 * player.rebirthMultiplier;
+                player.bananas += player.bananasPerSecond / 100;
                 // Check if any new upgrades should become available
                 updateDisplay();
             }

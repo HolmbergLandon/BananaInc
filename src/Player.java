@@ -83,4 +83,9 @@ public class Player {
     public void setRebirthModifier() {
         this.rebirthMultiplier = Math.pow(1.1, timesRebirthed) * rebirthMultiplier;
     }
+
+    public void rebirth() {
+        this.timesRebirthed++;
+        this.bananas = 0;
+    }
 }
